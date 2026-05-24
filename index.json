@@ -1,0 +1,21 @@
+[
+  {
+    "id": "anizm.net___.__",
+    "title": "anizm",
+    "version": "1.0.0",
+    "description": "parser for anizm",
+    "domain": "anizm.net",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "enable",
+    "tags": [],
+    "file": "scripts/anizm.js"
+  }
+]
