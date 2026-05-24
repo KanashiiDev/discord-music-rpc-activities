@@ -2,7 +2,7 @@
   {
     "id": "anizm.net___.__",
     "title": "anizm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "parser for anizm",
     "domain": "anizm.net",
     "urlPatterns": [
