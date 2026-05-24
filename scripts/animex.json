@@ -1,0 +1,26 @@
+[
+  {
+    "authors": ["kanashiiDev"],
+    "authorsLinks": [
+      ""
+    ],
+    "code": "let title = getText(\"div > span.text-white\");\nlet artist = getText(\"a > span.tracking-wide\");\nlet image = getImage(\"div.sm\\\\:aspect-\\\\[8\\\\/11\\\\.5\\\\] > img\");\nlet source = \"animeOne\";\nlet songUrl = \"\";\nlet timePassed = null;\nlet duration =null;\n\n",
+    "created": 1777405998166,
+    "debug": false,
+    "description": "",
+    "domain": "animex.one",
+    "homepage": "",
+    "id": "animex.one_Ly4qLw",
+    "lastUpdated": 1777405998166,
+    "mode": "watch",
+    "registered": false,
+    "runAt": "document_idle",
+    "settings": [],
+    "title": "one",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "watchAutoDetect": "enable",
+    "enabled": false
+  }
+]
