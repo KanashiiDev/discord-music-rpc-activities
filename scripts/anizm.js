@@ -3,7 +3,7 @@ registerParser({
   authors: "kanashiiDev",
   authorsLinks: "",
   title: "anizm",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "parser for anizm",
   lastUpdated: "1779450900084",
   mode: "watch",
@@ -32,7 +32,6 @@ registerParser({
       duration,
       timePassed,
       buttons,
-      isPlaying,
     };
   },
 });
