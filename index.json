@@ -17,5 +17,26 @@
     "watchAutoDetect": "enable",
     "tags": [],
     "file": "scripts/anizm.js"
+  },
+  {
+    "id": "animex.one_Ly4qLw",
+    "title": "one",
+    "version": "1.0.0",
+    "description": "",
+    "domain": "animex.one",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      ""
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "enable",
+    "tags": [],
+    "file": "scripts/animex.json"
   }
 ]
