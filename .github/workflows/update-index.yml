@@ -1,0 +1,109 @@
+name: Update index.json
+
+on:
+  #When there is a change in the # scripts/ folder
+  push:
+    branches: [main, master]
+    paths:
+      - "scripts/**/*.js"
+      - ".github/scripts/generate-index.js"
+
+  #Validate in PRs (check before merging)
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "scripts/**/*.js"
+
+  # So that it can also be triggered manually
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (Don't write index.json, just validate it)"
+        type: boolean
+        default: false
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # JOB 1: Validate (works in PRs, also works on push)
+  # ─────────────────────────────────────────────────────────────
+  validate:
+    name: Validate Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate scripts (dry-run)
+        run: node .github/scripts/generate-index.js --dry-run --verbose
+        # If there is an error, the workflow fails → PR merge is blocked
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 2: Generate & Commit (only works on main/master push)
+  # ─────────────────────────────────────────────────────────────
+  generate:
+    name: Generate index.json
+    runs-on: ubuntu-latest
+    #Working in PRs, only on real pushes
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    #Do not start before validating
+    needs: validate
+
+    permissions:
+      contents: write #to be able to commit index.json
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          #A token is required for the bot to be able to commit
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Get all history (for diff)
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate index.json
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            node .github/scripts/generate-index.js --dry-run --verbose
+          else
+            node .github/scripts/generate-index.js --verbose
+          fi
+
+      - name: Check if index.json changed
+        id: diff
+        run: |
+          if git diff --quiet index.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  index.json didn't change, the commit is being skipped."
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✅ index.json Updated."
+            git diff --stat index.json
+          fi
+
+      - name: Commit & Push index.json
+        if: steps.diff.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.json
+          git commit -m "chore: auto-update index.json [skip ci]"
+          git push
+
+      - name: Upload index.json as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: index-json
+          path: index.json
+          retention-days: 7
