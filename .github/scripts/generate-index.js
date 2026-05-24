@@ -138,7 +138,7 @@ function collectScriptFiles(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) results.push(...collectScriptFiles(full));
-    else if (entry.isFile() && entry.name.endsWith(".js")) results.push(full);
+    else if (entry.isFile() && (entry.name.endsWith(".js") || entry.name.endsWith(".json"))) results.push(full);
   }
   return results;
 }
@@ -158,16 +158,45 @@ function main() {
 
   for (const file of scriptFiles) {
     const relPath = toRelativePath(file);
-    let source;
-    try {
-      source = fs.readFileSync(file, "utf8");
-    } catch (err) {
-      errors.push({ file: relPath, error: "Could not be read: " + err.message });
-      continue;
-    }
+    let meta = null;
+    let fmt = "";
 
-    const meta = parseMeta(source);
-    const fmt = meta?._format === "register-parser" ? "[registerParser]" : "[UserScript]  ";
+    if (file.endsWith(".json")) {
+      try {
+        const source = fs.readFileSync(file, "utf8");
+        const content = JSON.parse(source);
+        const data = Array.isArray(content) ? content[0] : content;
+
+        meta = {
+          _format: "json-config",
+          id: data.id || null,
+          name: data.title || null,
+          version: data.version || "1.0.0",
+          description: data.description || "",
+          domain: Array.isArray(data.domain) ? data.domain : data.domain ? [data.domain] : [],
+          urlPatterns: data.urlPatterns && data.urlPatterns.length ? data.urlPatterns : ["/.*/"],
+          authors: data.authors || [],
+          authorsLinks: data.authorsLinks || [],
+          homepage: data.homepage || "",
+          mode: data.mode || "listen",
+          watchAutoDetect: data.watchAutoDetect || "disable",
+          tags: data.tags || [],
+        };
+        fmt = "[JSON Config] ";
+      } catch (err) {
+        errors.push({ file: relPath, error: "Could not read or parse JSON: " + err.message });
+        continue;
+      }
+    } else {
+      try {
+        const source = fs.readFileSync(file, "utf8");
+        meta = parseMeta(source);
+        fmt = meta?._format === "register-parser" ? "[registerParser]" : "[UserScript]  ";
+      } catch (err) {
+        errors.push({ file: relPath, error: "Could not be read: " + err.message });
+        continue;
+      }
+    }
 
     if (!meta) {
       errors.push({ file: relPath, error: "Format not recognized" });
@@ -176,7 +205,7 @@ function main() {
     }
     if (!meta.name) {
       errors.push({ file: relPath, error: "@name/title required" });
-      console.warn(" ! @name missing:", relPath);
+      console.warn(" ! @name/title missing:", relPath);
       continue;
     }
     if (!meta.domain.length) {
@@ -185,8 +214,8 @@ function main() {
       continue;
     }
 
-    if (meta._format === "register-parser" && meta.version === "1.0.0") {
-      warnings.push({ file: relPath, warn: "No version, 1.0.0 assumed. Add 'version' to the export format." });
+    if ((meta._format === "register-parser" || meta._format === "json-config") && meta.version === "1.0.0") {
+      warnings.push({ file: relPath, warn: "No version, 1.0.0 assumed. Add 'version' to the export/config format." });
     }
 
     const id = meta.id || generateScriptId(meta.domain, meta.urlPatterns);
