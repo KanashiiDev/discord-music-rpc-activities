@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // generate-index.js
+
 const fs = require("fs");
 const path = require("path");
 
@@ -46,18 +47,21 @@ function parseUserScriptBlock(source) {
 function parseRegisterParserFormat(source) {
   if (!source.includes("registerParser(")) return null;
   const extract = (key) => {
-    const m = new RegExp(`\\b${key}:\\s*["'\`]([^"'\`]*?)["'\`]`).exec(source);
-    return m ? m[1].trim() : null;
+    for (const k of [key, key.toLowerCase()]) {
+      const m = new RegExp(`\\b${k}\\s*:\\s*["'\`]([^"'\`]*?)["'\`]`).exec(source);
+      if (m) return m[1].trim();
+    }
+    return null;
   };
-  const urlPatternsRaw = /\burlPatterns:\s*\[([^\]]*)]/.exec(source)?.[1] || "";
-  const urlPatterns = urlPatternsRaw
+  const urlRaw = /\burlPatterns\s*:\s*\[([\s\S]*?)\]/.exec(source)?.[1] || "";
+  const urlPatterns = urlRaw
     .split(",")
     .map((p) => {
       p = p.trim().replace(/^["'`]|["'`]$/g, "");
-      const m = p.match(/^\/(.*?)\/?$/);
-      if (m) return `/${m[1]}/`;
-      if (!p.startsWith("/")) p = `/${p}/`;
-      return p;
+      if (!p) return null;
+      if (/^\/.+\/$/.test(p)) return p;
+      if (/^\//.test(p)) return p + "/";
+      return `/${p}/`;
     })
     .filter(Boolean);
 
@@ -67,7 +71,7 @@ function parseRegisterParserFormat(source) {
   const description = extract("description");
   const homepage = extract("homepage");
   const mode = extract("mode");
-  const watchAutoDetect = extract("watchAutoDetect") || extract("watchautodetect");
+  const watchAutoDetect = extract("watchAutoDetect");
   const authorsRaw = extract("authors");
   const authorsLinksRaw = extract("authorsLinks");
 
@@ -75,6 +79,7 @@ function parseRegisterParserFormat(source) {
 
   return {
     _format: "register-parser",
+    _hasVersion: !!version,
     id: null,
     name: title || null,
     version: version || "1.0.0",
