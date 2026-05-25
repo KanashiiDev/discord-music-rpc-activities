@@ -6,14 +6,17 @@
     "authorsLinks": [
       "https://github.com/KanashiiDev"
     ],
-    "code": "let title = getText(\"h1.anizm_pageTitle > span\");\nlet artist = getText(\"#pageContent a\");\nlet image = \"\";\nlet source = \"anizm\";\nlet songUrl = \"\";\nlet timePassed = null;\nlet duration = null;\nlet buttons = [\n  { link: \"https://anison.fm/user/100542\", text: \"test\" },\n  { link: \"https://anison.fm/user/100543\", text: \"test2\" },\n];\nconst test2 = await useSetting(\"test2\", \"test\", \"text\", \"testing\");\n",
-    "created": 1779736157255,
+    "code": "let title = getText(\"div > span.text-white\");\nlet artist = getText(\"a > span.tracking-wide\");\nlet image = getImage(\"div.sm\\\\:aspect-\\\\[8\\\\/11\\\\.5\\\\] > img\");\nlet source = \"animeOne\";\nlet songUrl = \"\";\nlet timePassed = null;\nlet duration =null;\nconst test2 = await useSetting(\"test2\", \"test\", \"text\", \"testing\");\n\n",
+    "created": 1779736824373,
     "debug": false,
-    "description": "parser for anizm",
-    "domain": "anizm.net",
+    "description": "parser for animex.one",
+    "domain": [
+      "animex.one",
+      "animex.two"
+    ],
     "homepage": "",
-    "id": "anizm.net_Ly4qLw",
-    "lastUpdated": 1779736157255,
+    "id": "animex.one_Ly4qL3wvaG",
+    "lastUpdated": 1779736824373,
     "mode": "watch",
     "registered": true,
     "runAt": "document_idle",
@@ -26,11 +29,12 @@
         "value": "testing"
       }
     ],
-    "title": "anizm",
+    "title": "one",
     "urlPatterns": [
-      "/.*/"
+      "/.*/",
+      "/home.*/"
     ],
-    "version": "1.0.2",
+    "version": "1.0.0",
     "watchAutoDetect": "enable",
     "enabled": true
   }
