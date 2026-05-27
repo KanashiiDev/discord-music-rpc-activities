@@ -13,8 +13,10 @@ registerParser({
     const title = getText("#episodeMenu");
     const artist = getText("h1:nth-child(2) > a:nth-child(2)");
     const image = getImage(".anime-poster");
+    const source = "animepahe";
+    const songUrl = location.href;
     const { duration, currentTime, playing } = iframe || {};
-
-    return { title, artist, image, source: "animepahe", songUrl: location.href, timePassed: currentTime, duration, isPlaying: playing };
+    const timePassed = currentTime;
+    const isPlaying = playing;
   },
 });

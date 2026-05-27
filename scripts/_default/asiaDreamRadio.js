@@ -58,14 +58,12 @@ registerParser({
       if (e.textContent.includes("Station")) station = `${station}${e.textContent.replace("Station:", "")}`;
     });
 
-    return {
-      title: data.title,
-      artist: data.artist,
-      image: data.cover,
-      source: station,
-      songUrl: location.href,
-      duration: data.duration?.trim(),
-      isPlaying: Boolean(document.querySelector("#button_play_stop-3.active")),
-    };
+    const title = data.title;
+    const artist = data.artist;
+    const image = data.cover;
+    const source = station;
+    const songUrl = location.href;
+    const duration = data.duration?.trim();
+    const isPlaying = Boolean(document.querySelector("#button_play_stop-3.active"));
   },
 });

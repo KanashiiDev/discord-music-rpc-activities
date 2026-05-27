@@ -15,6 +15,8 @@ registerParser({
     const artist = fullTitle.split("-")[1].trim();
     const image = getImage(`a[title='${artist}'] img`);
     const video = document.querySelector("[data-media-player] video");
+    const source = "Animetsu";
+    const songUrl = location.href;
 
     let { duration, currentTime, playing } = iframe || {};
     if (video && !duration) {
@@ -22,7 +24,7 @@ registerParser({
       currentTime = video.currentTime;
       duration = video.duration;
     }
-
-    return { title, artist, image, source: "Animetsu", songUrl: location.href, timePassed: currentTime, duration, isPlaying: playing };
+    const timePassed = currentTime;
+    const isPlaying = playing;
   },
 });

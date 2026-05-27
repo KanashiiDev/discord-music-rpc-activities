@@ -46,16 +46,8 @@ registerParser({
 
     const vid = songLink && new URL(songLink).searchParams.get("v");
     const image = vid ? `https://i.ytimg.com/vi/${vid}/mqdefault.jpg` : null;
-
-    return {
-      title,
-      artist,
-      image,
-      source: "YouTube Music",
-      songUrl: songLink || window.location.href,
-      isPlaying: isWatching || Boolean(document.querySelectorAll(".ytmusic-player-bar #button > yt-icon > span > div > svg > path")[2]?.getAttribute("d").startsWith("M6.5")),
-      timePassed,
-      duration,
-    };
+    const source = "YouTube Music";
+    const songUrl = songLink || window.location.href;
+    const isPlaying = isWatching || Boolean(document.querySelectorAll(".ytmusic-player-bar #button > yt-icon > span > div > svg > path")[2]?.getAttribute("d").startsWith("M6.5"));
   },
 });

@@ -43,14 +43,9 @@ registerParser({
     const fetched = await fetchTrackHistory();
     const stationName = document.querySelector(".player__station__name")?.textContent || "OnlineRadioBox";
     const image = fetched?.trackLink ? await fetchTrackCover(fetched.trackLink) : document.querySelector(".player__station__logo")?.src;
-
-    return {
-      title: fetched?.trackTitle,
-      artist: fetched?.trackArtist,
-      image,
-      source: stationName,
-      songUrl: fetched?.trackLink || document.querySelector(".player__station__title a")?.href || "https://onlineradiobox.com/",
-      isPlaying,
-    };
+    const title = fetched?.trackTitle;
+    const artist = fetched?.trackArtist;
+    const source = stationName;
+    const songUrl = fetched?.trackLink || document.querySelector(".player__station__title a")?.href || "https://onlineradiobox.com/";
   },
 });

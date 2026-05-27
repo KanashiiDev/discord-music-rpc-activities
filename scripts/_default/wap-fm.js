@@ -10,15 +10,12 @@ registerParser({
   fn: function () {
     const isPlaying = Boolean(document.querySelector(".radio-control-play-button > svg > path")?.getAttribute("d")?.startsWith("M324") || document.querySelector(".radio-player-widget > audio"));
 
-    return {
-      title: getText(".now-playing-title"),
-      artist: getText(".now-playing-artist"),
-      image: getImage("img.album_art"),
-      timePassed: getText(".time-display-played"),
-      duration: getText(".time-display-total"),
-      source: "wap-fm",
-      songUrl: "https://radio.wapchan.org/public/wapfm",
-      isPlaying,
-    };
+    const title = getText(".now-playing-title");
+    const artist = getText(".now-playing-artist");
+    const image = getImage("img.album_art");
+    const timePassed = getText(".time-display-played");
+    const duration = getText(".time-display-total");
+    const source = "wap-fm";
+    const songUrl = "https://radio.wapchan.org/public/wapfm";
   },
 });

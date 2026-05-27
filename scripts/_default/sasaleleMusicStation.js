@@ -23,14 +23,9 @@ registerParser({
     if (badArtist.includes(artist)) artist = "-1";
     if (/\.webp(\?.*)?$/i.test(image)) image = "https://favicons.seadfeng.workers.dev/basic.pp.ua.ico";
 
-    return {
-      title,
-      artist,
-      image,
-      source: stationName,
-      songUrl: stationLink,
-      buttons: [{ link: "https://basic.pp.ua/", text: "Sasalele Music Station" }],
-      isPlaying: Boolean(document.querySelector("#media-controller > media-control-bar > media-play-button[aria-label='pause']")),
-    };
+    const source = stationName;
+    const songUrl = stationLink;
+    const buttons = [{ link: "https://basic.pp.ua/", text: "Sasalele Music Station" }];
+    const isPlaying = Boolean(document.querySelector("#media-controller > media-control-bar > media-play-button[aria-label='pause']"));
   },
 });

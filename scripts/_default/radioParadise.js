@@ -8,15 +8,20 @@ registerParser({
   urlPatterns: [/.*/],
   fn: function () {
     const currentChannel = getText(".channel-selector div");
-    const channelMap = { "The Main Mix": "main-mix", "The Mellow Mix": "mellow-mix", "RP Rock Mix": "rock-mix", "RP Global Mix": "global-mix", "Beyond...": "beyond", Serenity: "serenity" };
-
-    return {
-      title: getText(".player-title"),
-      artist: getText(".player-artist"),
-      image: getImage(".player-cover"),
-      source: "Radio Paradise",
-      songUrl: "https://radioparadise.com/listen/channels/" + (channelMap[currentChannel] || ""),
-      isPlaying: Boolean(document.querySelector("mat-icon#play-button[title='Pause']")),
+    const channelMap = {
+      "The Main Mix": "main-mix",
+      "The Mellow Mix": "mellow-mix",
+      "RP Rock Mix": "rock-mix",
+      "RP Global Mix": "global-mix",
+      "Beyond...": "beyond",
+      Serenity: "serenity",
     };
+
+    const title = getText(".player-title");
+    const artist = getText(".player-artist");
+    const image = getImage(".player-cover");
+    const source = "Radio Paradise";
+    const songUrl = "https://radioparadise.com/listen/channels/" + (channelMap[currentChannel] || "");
+    const isPlaying = Boolean(document.querySelector("mat-icon#play-button[title='Pause']"));
   },
 });

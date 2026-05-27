@@ -14,6 +14,8 @@ registerParser({
     const artist = getText(".title");
     const image = getImage("._infoLink_ ._image_");
     const video = document.querySelector("[data-media-provider] video");
+    const source = "Miruro";
+    const songUrl = location.href;
 
     let { duration, currentTime, playing } = iframe || {};
     if (video && !duration) {
@@ -21,7 +23,7 @@ registerParser({
       currentTime = video.currentTime;
       duration = video.duration;
     }
-
-    return { title, artist, image, source: "Miruro", songUrl: location.href, timePassed: currentTime, duration, isPlaying: playing };
+    const timePassed = currentTime;
+    const isPlaying = playing;
   },
 });

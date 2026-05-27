@@ -130,12 +130,6 @@ function parseMeta(source) {
   return parseUserScriptBlock(source) || parseRegisterParserFormat(source);
 }
 
-function generateScriptId(domain, urlPatterns) {
-  const d = Array.isArray(domain) ? domain[0] : domain || "";
-  const p = Array.isArray(urlPatterns) ? urlPatterns[0] : urlPatterns || ".*";
-  return `${d}__${p}`.replace(/[^a-zA-Z0-9_\-.]/g, "_").slice(0, 80);
-}
-
 function toRelativePath(absPath) {
   return path.relative(REPO_ROOT, absPath).replace(/\\/g, "/");
 }
@@ -162,6 +156,54 @@ function collectScriptFiles(dir) {
     else if (entry.isFile() && (entry.name.endsWith(".js") || entry.name.endsWith(".json"))) results.push(full);
   }
   return results;
+}
+
+function generateParserKey(domain, urlPatterns, authors = []) {
+  let rawDomain = "";
+
+  if (Array.isArray(domain)) {
+    rawDomain = domain[0] || "";
+  } else if (typeof domain === "string") {
+    rawDomain = domain.split(",")[0] || "";
+  }
+
+  if (!rawDomain) rawDomain = "unknown";
+
+  let patternsArray = [];
+
+  if (Array.isArray(urlPatterns)) {
+    patternsArray = urlPatterns;
+  } else if (typeof urlPatterns === "string") {
+    patternsArray = urlPatterns.split(",");
+  }
+
+  if (!patternsArray.length) {
+    patternsArray = [".*"];
+  }
+
+  const patternStrings = patternsArray
+    .map((p) => {
+      if (!p) return ".*";
+      if (p instanceof RegExp) return p.source;
+      return p.toString().trim() || ".*";
+    })
+    .sort();
+
+  const hash = btoa(patternStrings.join("|"))
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .slice(0, 10);
+
+  const author = Array.isArray(authors) ? authors[0] : authors;
+
+  const safeAuthor = String(author || "anonymous")
+    .toLowerCase()
+    .replace(/[^a-z0-9_\-]/g, "");
+
+  const safeDomain = String(rawDomain)
+    .toLowerCase()
+    .replace(/[^a-z0-9_\-]/g, "");
+
+  return `${safeAuthor}_${safeDomain}_${hash}`;
 }
 
 function main() {
@@ -240,7 +282,7 @@ function main() {
       warnings.push({ file: relPath, warn: "No version, 1.0.0 assumed. Add 'version' to the export/config format." });
     }
 
-    const id = meta.id || generateScriptId(meta.domain, meta.urlPatterns);
+    const id = meta.id || generateParserKey(meta.domain, meta.urlPatterns, meta.authors);
     const existing = existingMap[id];
 
     if (!existing) console.log(` + New:       ${fmt} ${relPath}  v${meta.version}`);

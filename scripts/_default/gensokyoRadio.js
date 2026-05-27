@@ -14,8 +14,8 @@ registerParser({
       if (res.ok) data = await res.json();
     } catch (_) {}
 
-    const title = data?.SONGINFO?.TITLE || getText("#playerTitle");
-    const artist = data?.SONGINFO?.ARTIST || getText("#playerArtist");
+    let title = data?.SONGINFO?.TITLE || getText("#playerTitle");
+    let artist = data?.SONGINFO?.ARTIST || getText("#playerArtist");
 
     let image = data?.MISC?.ALBUMART ? `https://gensokyoradio.net/images/albums/500/${data.MISC.ALBUMART}` : "";
     const imgRes = image ? await fetch(image) : false;
@@ -30,7 +30,7 @@ registerParser({
 
     const playButton = document.getElementById("shape")?.animatedPoints;
     const isPlaying = playButton ? playButton.getItem(0).x === 45 : false;
-
-    return { title, artist, image, timePassed, duration, source: "Gensokyo Radio", songUrl: "https://gensokyoradio.net/playing/", isPlaying };
+    const source = "Gensokyo Radio";
+    const songUrl = "https://gensokyoradio.net/playing/";
   },
 });

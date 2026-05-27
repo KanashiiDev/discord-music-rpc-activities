@@ -15,14 +15,9 @@ registerParser({
     const image = getImage("#graffitiSoulFrame img");
     const coverSegment = image?.split("/")[5];
     const stationLabel = coverSegment ? coverSegment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : null;
-
-    return {
-      title,
-      artist: title,
-      image,
-      source: stationLabel ? "Jet Set Radio - " + stationLabel : "Jet Set Radio",
-      songUrl: "https://jetsetradio.live/",
-      isPlaying: Boolean(document.querySelector("#pauseTrackButton")?.style.visibility === "visible"),
-    };
+    const artist = title;
+    const source = stationLabel ? "Jet Set Radio - " + stationLabel : "Jet Set Radio";
+    const songUrl = "https://jetsetradio.live/";
+    const isPlaying = Boolean(document.querySelector("#pauseTrackButton")?.style.visibility === "visible");
   },
 });

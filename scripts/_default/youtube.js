@@ -15,28 +15,19 @@ registerParser({
     const artist = getText("#upload-info #text > a");
     const video = document.querySelector("video");
     const isLive = Boolean(document.querySelector("button.ytp-live-badge")?.offsetParent);
+    const source = "YouTube";
+    const songUrl = url;
+    const vid = url && new URL(url).searchParams.get("v");
+    const image = vid ? `https://i.ytimg.com/vi/${vid}/mqdefault.jpg` : null;
 
-    let timePassed = "",
-      duration = "",
-      isWatching = 0;
+    let timePassed = "";
+    let duration = "";
+    let isWatching = 0;
     if (video) {
       isWatching = !video.paused;
       timePassed = isLive ? "" : video.currentTime;
       duration = isLive ? "" : video.duration;
     }
-
-    const vid = url && new URL(url).searchParams.get("v");
-    const image = vid ? `https://i.ytimg.com/vi/${vid}/mqdefault.jpg` : null;
-
-    return {
-      title,
-      artist,
-      image,
-      source: "YouTube",
-      songUrl: url,
-      isPlaying: isWatching || Boolean(document.querySelector(".ytp-left-controls > button > svg > path")?.getAttribute("d").startsWith("M 12")),
-      timePassed,
-      duration,
-    };
+    const isPlaying = isWatching || Boolean(document.querySelector(".ytp-left-controls > button > svg > path")?.getAttribute("d").startsWith("M 12"));
   },
 });

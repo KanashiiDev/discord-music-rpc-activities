@@ -13,16 +13,9 @@ registerParser({
     const image = lcd?.querySelector(".lcd__artwork-img")?.src;
     const times = lcd?.querySelectorAll(".lcd-progress__time");
     const isPlaying = document.querySelector("amp-lcd .playback-play__play")?.ariaHidden === "true";
-
-    return {
-      title,
-      artist,
-      image,
-      source: "Apple Music",
-      songUrl: "https://www.music.apple.com/",
-      timePassed: times?.[0]?.textContent?.trim() ?? "0",
-      duration: times?.[1]?.textContent?.trim() ?? "0",
-      isPlaying,
-    };
+    const source = "Apple Music";
+    const songUrl = "https://www.music.apple.com/";
+    const timePassed = times?.[0]?.textContent?.trim() ?? "0";
+    const duration = times?.[1]?.textContent?.trim() ?? "0";
   },
 });

@@ -8,13 +8,11 @@ registerParser({
   urlPatterns: [/.*/],
   fn: function () {
     const root = document.querySelector("div[class*='_channelTitle_']");
-    return {
-      title: root?.querySelector("[class*='_title_']")?.textContent,
-      artist: root?.querySelector("[class*='_subtitle_']")?.textContent,
-      image: "https://radio.garden/icons/icon_60pt@2x.png",
-      source: "Radio Garden",
-      songUrl: "https://radio.garden",
-      isPlaying: Boolean(document.querySelector("button[aria-label='stop']") || document.querySelector("[data-player='playing']")),
-    };
+    const title = root?.querySelector("[class*='_title_']")?.textContent;
+    const artist = root?.querySelector("[class*='_subtitle_']")?.textContent;
+    const image = "https://radio.garden/icons/icon_60pt@2x.png";
+    const source = "Radio Garden";
+    const songUrl = "https://radio.garden";
+    const isPlaying = Boolean(document.querySelector("button[aria-label='stop']") || document.querySelector("[data-player='playing']"));
   },
 });

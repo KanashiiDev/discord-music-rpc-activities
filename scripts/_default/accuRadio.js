@@ -16,7 +16,8 @@ registerParser({
     const songUrl = player.querySelector("#playerName")?.href;
     const timeElem = player.querySelector("#progressWrapper")?.textContent;
     const isPlaying = Boolean(title && artist && document.querySelector("#playerPauseButton"));
-
-    return { title, artist, image, source: "AccuRadio", songUrl, timePassed: timeElem, duration: timeElem, isPlaying };
+    const source = "AccuRadio";
+    const timePassed = timeElem;
+    const duration = timeElem;
   },
 });

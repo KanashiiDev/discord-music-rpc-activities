@@ -11,19 +11,11 @@ registerParser({
     const title = getText("music-link", { root: main });
     const artist = getText("music-link[kind='secondary']", { root: main });
     const image = getText("music-image", { root: main, attr: "src", transform: (v) => v.replace(/\.jpg$/, "._SX160_SY160_.jpg") });
-    const songUrl = main?.querySelector("music-link a")?.href;
+    const songUrl = main?.querySelector("music-link a")?.href || "https://www.music.amazon.com/";
     const times = document.querySelector("#progress-container")?.getAttribute("aria-valuetext").split("/");
-    const [timePassed = "", remaining = ""] = times ? times : [];
-
-    return {
-      title,
-      artist,
-      image,
-      source: "Amazon Music",
-      songUrl: songUrl || "https://www.music.amazon.com/",
-      timePassed,
-      duration: remaining,
-      isPlaying: Boolean(main?.querySelector("button[aria-label='Pause']")),
-    };
+    const timePassed = times ? times[0] : "";
+    const duration = times ? times[1] : "";
+    const isPlaying = Boolean(main?.querySelector("button[aria-label='Pause']"));
+    const source = "Amazon Music";
   },
 });

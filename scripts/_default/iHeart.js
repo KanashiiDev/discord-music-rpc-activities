@@ -23,14 +23,12 @@ registerParser({
       }
     }
 
-    return {
-      title: player.querySelector("div > div > div > div > div > div:nth-child(2) > span")?.textContent,
-      artist: player.querySelector("div > div > div > div > div > div:nth-child(3) > div")?.textContent,
-      image: decodeCoverImage(player.querySelector("div > div > div > div > div > div:nth-child(1) > img")?.src),
-      source: "iHeart",
-      timePassed: player.querySelectorAll("div > div > div > div > div > div:nth-child(1) > span")[1]?.textContent,
-      duration: player.querySelectorAll("div > div > div > div > div > div:nth-child(1) > span")[2]?.textContent,
-      isPlaying: Boolean(document.querySelector("[data-test='player-play-button'] svg[aria-label='Pause']")),
-    };
+    const title = player.querySelector("div > div > div > div > div > div:nth-child(2) > span")?.textContent;
+    const artist = player.querySelector("div > div > div > div > div > div:nth-child(3) > div")?.textContent;
+    const image = decodeCoverImage(player.querySelector("div > div > div > div > div > div:nth-child(1) > img")?.src);
+    const source = "iHeart";
+    const timePassed = player.querySelectorAll("div > div > div > div > div > div:nth-child(1) > span")[1]?.textContent;
+    const duration = player.querySelectorAll("div > div > div > div > div > div:nth-child(1) > span")[2]?.textContent;
+    const isPlaying = Boolean(document.querySelector("[data-test='player-play-button'] svg[aria-label='Pause']"));
   },
 });

@@ -10,15 +10,13 @@ registerParser({
     const player = document.querySelector(".region-bottomBar");
     if (!player) return null;
 
-    return {
-      title: player.querySelector("[data-qa='mini_track_title']")?.textContent,
-      artist: player.querySelector("[data-qa='mini_track_artist_name']")?.textContent,
-      image: player.querySelector("[data-qa='mini_track_image']")?.src,
-      source: "Pandora",
-      songUrl: player.querySelector("[data-qa='mini_track_title']")?.href,
-      timePassed: player.querySelector("[data-qa='elapsed_time']")?.textContent,
-      duration: player.querySelector("[data-qa='remaining_time']")?.textContent,
-      isPlaying: Boolean(document.querySelector("button[data-qa='pause_button']")),
-    };
+    const title = player.querySelector("[data-qa='mini_track_title']")?.textContent;
+    const artist = player.querySelector("[data-qa='mini_track_artist_name']")?.textContent;
+    const image = player.querySelector("[data-qa='mini_track_image']")?.src;
+    const source = "Pandora";
+    const songUrl = player.querySelector("[data-qa='mini_track_title']")?.href;
+    const timePassed = player.querySelector("[data-qa='elapsed_time']")?.textContent;
+    const duration = player.querySelector("[data-qa='remaining_time']")?.textContent;
+    const isPlaying = Boolean(document.querySelector("button[data-qa='pause_button']"));
   },
 });

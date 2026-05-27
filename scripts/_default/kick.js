@@ -15,7 +15,8 @@ registerParser({
     const currentTime = Number.isFinite(video?.currentTime) && video.currentTime > 0 ? video.currentTime : 0;
     const duration = Number.isFinite(video?.duration) && video.duration > 0 ? video.duration : 0;
     const isPlaying = (!video?.paused && currentTime > 0) || Boolean(document.querySelector("path[d='M4.9,28.9h7.4V3.1H4.9V28.9z M19.7,3.1v25.8h7.4V3.1H19.7z']"));
-
-    return { title, artist, image, source: "Kick", songUrl: location.href, timePassed: currentTime, duration, isPlaying };
+    const source = "Kick";
+    const songUrl = location.href;
+    const timePassed = currentTime;
   },
 });

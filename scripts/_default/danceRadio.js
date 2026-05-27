@@ -16,6 +16,11 @@ registerParser({
       fetched = { title: data.current_track.title, artwork_url: data.current_track.artwork_url };
     } catch (_) {}
 
-    return { title: fetched?.title, artist: fetched?.title, image: fetched?.artwork_url, source: "Dance Radio", songUrl: "https://danceradio.show/", isPlaying: Boolean(iframe?.playing) };
+    const title = fetched?.title;
+    const artist = fetched?.title;
+    const image = fetched?.artwork_url;
+    const source = "Dance Radio";
+    const songUrl = "https://danceradio.show/";
+    const isPlaying = Boolean(iframe?.playing);
   },
 });

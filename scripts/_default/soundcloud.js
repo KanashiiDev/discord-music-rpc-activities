@@ -39,7 +39,6 @@ registerParser({
     const isPlaying = Boolean(
       document.querySelector("#app > .playControls .playControl svg path")?.getAttribute("d")?.startsWith("M10") || document.querySelector("#app > .playControls .playControl.playing"),
     );
-
-    return { title, artist, image, timePassed, duration, source: "SoundCloud", songUrl, isPlaying };
+    const source = "SoundCloud";
   },
 });

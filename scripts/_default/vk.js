@@ -14,15 +14,13 @@ registerParser({
     const progressResult = await accessWindow("ap.getCurrentProgress");
     const progress = progressResult && !progressResult.__error ? progressResult : 0;
 
-    return {
-      title: ap[3],
-      artist: ap[4],
-      duration: ap[5] || 0,
-      timePassed: Math.floor(progress * (ap[5] || 0)),
-      image: ap[14]?.split(",")[0] || "https://cdn.discordapp.com/app-assets/1366752683628957767/1472958246636617829.png?size=160",
-      songUrl: `https://vk.com/audio${ap[26]}`,
-      source: "VK",
-      isPlaying: Boolean(document.querySelector("button[data-testid='TopAudioPlayer_TogglePlayAction'][data-testactive='true']")),
-    };
+    const title = ap[3];
+    const artist = ap[4];
+    const duration = ap[5] || 0;
+    const timePassed = Math.floor(progress * (ap[5] || 0));
+    const image = ap[14]?.split(",")[0] || "https://cdn.discordapp.com/app-assets/1366752683628957767/1472958246636617829.png?size=160";
+    const songUrl = `https://vk.com/audio${ap[26]}`;
+    const source = "VK";
+    const isPlaying = Boolean(document.querySelector("button[data-testid='TopAudioPlayer_TogglePlayAction'][data-testactive='true']"));
   },
 });

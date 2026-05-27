@@ -10,7 +10,10 @@ registerParser({
     const title = getText("#playerTitle");
     const sourceTitle = getText("#playerSubtitle") ?? "TuneIn";
     const sourceUrl = document.querySelector('a[class*="nowPlaying-module__link"]')?.href || "https://tunein.com";
-
-    return { title, artist: title, image: getImage("#playerArtwork"), source: sourceTitle, songUrl: sourceUrl, isPlaying: Boolean(document.querySelector("svg[data-testid='player-status-playing']")) };
+    const artist = title;
+    const image = getImage("#playerArtwork");
+    const source = sourceTitle;
+    const songUrl = sourceUrl;
+    const isPlaying = Boolean(document.querySelector("svg[data-testid='player-status-playing']"));
   },
 });

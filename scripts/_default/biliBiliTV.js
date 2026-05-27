@@ -12,17 +12,11 @@ registerParser({
     const iframe = await getIframeData();
     const title = getText(".ep-item--active") || getText(".bstar-meta__title");
     const artist = getText("h1.bstar-meta__title > a") || getText(".bstar-meta-up-follow__nickName");
+    const image = "https://p.bstarstatic.com/fe-lib/images/web/share-cover.png@500w_500h_1e_1c_1f.png";
+    const source = "BiliBiliTV";
+    const songUrl = location.href;
     const { duration, currentTime, playing } = iframe || {};
-
-    return {
-      title,
-      artist,
-      image: "https://p.bstarstatic.com/fe-lib/images/web/share-cover.png@500w_500h_1e_1c_1f.png",
-      source: "BiliBiliTV",
-      songUrl: location.href,
-      timePassed: currentTime,
-      duration,
-      isPlaying: playing,
-    };
+    const timePassed = currentTime;
+    const isPlaying = playing;
   },
 });

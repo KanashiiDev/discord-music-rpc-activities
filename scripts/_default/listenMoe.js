@@ -12,7 +12,8 @@ registerParser({
     const image = getImage("img[alt='Album art']") || "https://listen.moe/images/logo.png";
     const titleExtra = getText(".glass span.text-text-primary > .inline");
     if (titleExtra) title = title.replace(titleExtra, "");
-
-    return { title, artist, image, source: "LISTEN.moe", songUrl: "https://listen.moe/", isPlaying: document.querySelector(".glass svg rect")?.getAttribute("x") === "6" };
+    const source = "LISTEN.moe";
+    const songUrl = "https://listen.moe/";
+    const isPlaying = document.querySelector(".glass svg rect")?.getAttribute("x") === "6";
   },
 });

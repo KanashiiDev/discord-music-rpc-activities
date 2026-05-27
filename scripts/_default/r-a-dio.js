@@ -13,15 +13,12 @@ registerParser({
       (document.querySelector("audio") && !document.querySelector("audio").paused),
     );
 
-    return {
-      title: getText("#metadata"),
-      artist: getText("#metadata"),
-      image: getImage("div:nth-of-type(2)#content > section > div > div.is-desktop > div > img"),
-      source: "R/a/dio",
-      songUrl: "https://r-a-d.io/",
-      timePassed: getText("#progress-current"),
-      duration: getText("#progress-max"),
-      isPlaying,
-    };
+    const title = getText("#metadata");
+    const artist = getText("#metadata");
+    const image = getImage("div:nth-of-type(2)#content > section > div > div.is-desktop > div > img");
+    const source = "R/a/dio";
+    const songUrl = "https://r-a-d.io/";
+    const timePassed = getText("#progress-current");
+    const duration = getText("#progress-max");
   },
 });

@@ -14,6 +14,8 @@ registerParser({
     const artist = getText("[data-media-player] .flex.flex-col h1");
     const image = getImage(".active img");
     const video = document.querySelector("[data-media-player] video");
+    const source = "Anime Nexus";
+    const songUrl = location.href;
 
     let { duration, currentTime, playing } = iframe || {};
     if (video && !duration) {
@@ -21,7 +23,7 @@ registerParser({
       currentTime = video.currentTime;
       duration = video.duration;
     }
-
-    return { title, artist, image, source: "Anime Nexus", songUrl: location.href, timePassed: currentTime, duration, isPlaying: playing };
+    const timePassed = currentTime;
+    const isPlaying = playing;
   },
 });

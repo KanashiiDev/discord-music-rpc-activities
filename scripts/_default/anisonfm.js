@@ -10,14 +10,12 @@ registerParser({
     const titleText = getText(".player-wrapper .player-item .song-box__subtitle");
     if (titleText === "Отбивочка") return;
 
-    return {
-      title: titleText,
-      artist: getText(".player-wrapper .player-item .song-box__title"),
-      image: getImage(".player-wrapper .player-item .song-item__img--title")?.replace("poster/50/", "poster/200/"),
-      source: "ANISON.FM",
-      songUrl: location.href,
-      isPlaying: document.querySelector("svg.song-play__start")?.classList.contains("hide"),
-      duration: getText(".player-wrapper .player-item .song-item__time"),
-    };
+    const title = titleText;
+    const artist = getText(".player-wrapper .player-item .song-box__title");
+    const image = getImage(".player-wrapper .player-item .song-item__img--title")?.replace("poster/50/", "poster/200/");
+    const source = "ANISON.FM";
+    const songUrl = location.href;
+    const isPlaying = document.querySelector("svg.song-play__start")?.classList.contains("hide");
+    const duration = getText(".player-wrapper .player-item .song-item__time");
   },
 });

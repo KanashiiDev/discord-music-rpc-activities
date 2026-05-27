@@ -8,15 +8,13 @@ registerParser({
   urlPatterns: [/.*/],
   fn: function () {
     const timeElem = getText(".player-time");
-    return {
-      title: getText(".track-title"),
-      artist: getText(".track-artist"),
-      image: getImage(".cover img"),
-      source: "Nightwave Plaza",
-      songUrl: "https://plaza.one/",
-      timePassed: timeElem,
-      duration: timeElem,
-      isPlaying: Boolean(document.querySelector(".col-3") || navigator?.mediaSession?.playbackState === "playing"),
-    };
+    const title = getText(".track-title");
+    const artist = getText(".track-artist");
+    const image = getImage(".cover img");
+    const source = "Nightwave Plaza";
+    const songUrl = "https://plaza.one/";
+    const timePassed = timeElem;
+    const duration = timeElem;
+    const isPlaying = Boolean(document.querySelector(".col-3") || navigator?.mediaSession?.playbackState === "playing");
   },
 });

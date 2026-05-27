@@ -13,16 +13,10 @@ registerParser({
     const image = main?.querySelector("div.image img")?.src;
     const musicLink = main?.querySelector("[data-test='footer-track-title'] a")?.href ?? "";
     const times = main?.querySelector("[data-test='play-controls']").parentElement;
-
-    return {
-      title,
-      artist,
-      image,
-      source: "Tidal",
-      songUrl: musicLink || "https://www.tidal.com/",
-      timePassed: times?.querySelector("[data-test='current-time']")?.textContent ?? "",
-      duration: times?.querySelector("[data-test='duration']")?.textContent ?? "",
-      isPlaying: Boolean(document.querySelector("button[data-test='pause']")),
-    };
+    const source = "Tidal";
+    const songUrl = musicLink || "https://www.tidal.com/";
+    const timePassed = times?.querySelector("[data-test='current-time']")?.textContent ?? "";
+    const duration = times?.querySelector("[data-test='duration']")?.textContent ?? "";
+    const isPlaying = Boolean(document.querySelector("button[data-test='pause']"));
   },
 });

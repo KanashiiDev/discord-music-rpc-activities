@@ -33,7 +33,8 @@ registerParser({
       title = sourceTitle;
       artist = sourceTitle;
     }
-
-    return { title, artist, image, source: sourceTitle, songUrl: sourceUrl, isPlaying: Boolean(document.querySelector("button[data-item='stop_button']")) };
+    const source = sourceTitle;
+    const songUrl = sourceUrl;
+    const isPlaying = Boolean(document.querySelector("button[data-item='stop_button']"));
   },
 });
