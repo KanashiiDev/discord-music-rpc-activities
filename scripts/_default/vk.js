@@ -1,0 +1,28 @@
+registerParser({
+  domain: "vk.com",
+  authors: "kanashiiDev",
+  authorsLinks: "https://github.com/KanashiiDev",
+  title: "VK",
+  version: "1.0.0",
+  description: "Music streaming and discovery integrated into the VK social platform.",
+  urlPatterns: [/.*/],
+  fn: async function () {
+    //@world main
+    const ap = await accessWindow("ap.getCurrentAudio");
+    if (!ap) return null;
+
+    const progressResult = await accessWindow("ap.getCurrentProgress");
+    const progress = progressResult && !progressResult.__error ? progressResult : 0;
+
+    return {
+      title: ap[3],
+      artist: ap[4],
+      duration: ap[5] || 0,
+      timePassed: Math.floor(progress * (ap[5] || 0)),
+      image: ap[14]?.split(",")[0] || "https://cdn.discordapp.com/app-assets/1366752683628957767/1472958246636617829.png?size=160",
+      songUrl: `https://vk.com/audio${ap[26]}`,
+      source: "VK",
+      isPlaying: Boolean(document.querySelector("button[data-testid='TopAudioPlayer_TogglePlayAction'][data-testactive='true']")),
+    };
+  },
+});

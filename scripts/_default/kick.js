@@ -1,0 +1,21 @@
+registerParser({
+  domain: "kick.com",
+  authors: "kanashiiDev",
+  authorsLinks: "https://github.com/KanashiiDev",
+  title: "Kick",
+  version: "1.0.0",
+  description: "Kick is a streaming platform that makes it easy for you to find and watch your favorite content.",
+  mode: "watch",
+  urlPatterns: [/\/\w+/],
+  fn: function () {
+    const title = getText("[data-testid='livestream-title']");
+    const artist = getText("#channel-username");
+    const image = getImage("div:nth-child(1) > #channel-avatar") || "https://www.google.com/s2/favicons?domain=kick.com&size=64";
+    const video = document.querySelector("video");
+    const currentTime = Number.isFinite(video?.currentTime) && video.currentTime > 0 ? video.currentTime : 0;
+    const duration = Number.isFinite(video?.duration) && video.duration > 0 ? video.duration : 0;
+    const isPlaying = (!video?.paused && currentTime > 0) || Boolean(document.querySelector("path[d='M4.9,28.9h7.4V3.1H4.9V28.9z M19.7,3.1v25.8h7.4V3.1H19.7z']"));
+
+    return { title, artist, image, source: "Kick", songUrl: location.href, timePassed: currentTime, duration, isPlaying };
+  },
+});
