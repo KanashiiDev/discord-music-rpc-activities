@@ -46,13 +46,49 @@ function parseUserScriptBlock(source) {
 
 function parseRegisterParserFormat(source) {
   if (!source.includes("registerParser(")) return null;
-  const extract = (key) => {
+
+  const cleanStr = (s) =>
+    s
+      .trim()
+      .replace(/^["'`]|["'`]$/g, "")
+      .trim();
+
+  const extractRaw = (key) => {
     for (const k of [key, key.toLowerCase()]) {
-      const m = new RegExp(`\\b${k}\\s*:\\s*["'\`]([^"'\`]*?)["'\`]`).exec(source);
+      const m = new RegExp(`\\b${k}\\s*:\\s*(\\[[\\s\\S]*?\\]|["'\`][^"'\`]*?["'\`])`).exec(source);
       if (m) return m[1].trim();
     }
     return null;
   };
+
+  const parseArrayOrString = (raw) => {
+    if (!raw) return [];
+    if (raw.startsWith("[")) {
+      return raw.slice(1, -1).split(",").map(cleanStr).filter(Boolean);
+    }
+    return [cleanStr(raw)];
+  };
+
+  const domainRaw = extractRaw("domain");
+  const titleRaw = extractRaw("title");
+  const versionRaw = extractRaw("version");
+  const descriptionRaw = extractRaw("description");
+  const homepageRaw = extractRaw("homepage");
+  const modeRaw = extractRaw("mode");
+  const watchAutoDetectRaw = extractRaw("watchAutoDetect");
+  const authorsRaw = extractRaw("authors");
+  const authorsLinksRaw = extractRaw("authorsLinks");
+
+  const domain = parseArrayOrString(domainRaw);
+  const title = titleRaw ? cleanStr(titleRaw) : null;
+  const version = versionRaw ? cleanStr(versionRaw) : null;
+  const description = descriptionRaw ? cleanStr(descriptionRaw) : "";
+  const homepage = homepageRaw ? cleanStr(homepageRaw) : "";
+  const mode = modeRaw ? cleanStr(modeRaw) : "listen";
+  const watchAutoDetect = watchAutoDetectRaw ? cleanStr(watchAutoDetectRaw) : "disable";
+
+  if (!domain.length && !title) return null;
+
   const urlRaw = /\burlPatterns\s*:\s*\[([\s\S]*?)\]/.exec(source)?.[1] || "";
   const urlPatterns = urlRaw
     .split(",")
@@ -65,18 +101,6 @@ function parseRegisterParserFormat(source) {
     })
     .filter(Boolean);
 
-  const domain = extract("domain");
-  const title = extract("title");
-  const version = extract("version");
-  const description = extract("description");
-  const homepage = extract("homepage");
-  const mode = extract("mode");
-  const watchAutoDetect = extract("watchAutoDetect");
-  const authorsRaw = extract("authors");
-  const authorsLinksRaw = extract("authorsLinks");
-
-  if (!domain && !title) return null;
-
   return {
     _format: "register-parser",
     _hasVersion: !!version,
@@ -84,23 +108,13 @@ function parseRegisterParserFormat(source) {
     name: title || null,
     version: version || "1.0.0",
     description: description || "",
-    domain: domain ? [domain] : [],
+    domain: domain,
     urlPatterns: urlPatterns.length ? urlPatterns : ["/.*/"],
-    authors: authorsRaw
-      ? authorsRaw
-          .split(",")
-          .map((a) => a.trim())
-          .filter(Boolean)
-      : [],
-    authorsLinks: authorsLinksRaw
-      ? authorsLinksRaw
-          .split(",")
-          .map((a) => a.trim())
-          .filter(Boolean)
-      : [],
-    homepage: homepage || "",
-    mode: mode || "listen",
-    watchAutoDetect: watchAutoDetect || "disable",
+    authors: parseArrayOrString(authorsRaw),
+    authorsLinks: parseArrayOrString(authorsLinksRaw),
+    homepage: homepage,
+    mode: mode,
+    watchAutoDetect: watchAutoDetect,
     tags: [],
   };
 }
