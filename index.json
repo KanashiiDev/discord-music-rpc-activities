@@ -1,35 +1,54 @@
 [
   {
-    "id": "anizm.net___.__",
-    "title": "anizm",
-    "version": "1.0.1",
-    "description": "parser for anizm",
-    "domain": "anizm.net",
+    "id": "accuradio.com___.__",
+    "title": "AccuRadio",
+    "version": "1.0.0",
+    "description": "Free online radio platform with hundreds of curated music channels across genres.",
+    "domain": "accuradio.com",
     "urlPatterns": [
       "/.*/"
     ],
     "authors": [
       "kanashiiDev"
     ],
-    "authorsLinks": [],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
     "homepage": "",
-    "mode": "watch",
-    "watchAutoDetect": "enable",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
     "tags": [],
-    "file": "scripts/anizm.js"
+    "file": "scripts/_default/accuRadio.js"
   },
   {
-    "id": "animex.one_Ly4qL3wvaG",
-    "title": "one",
+    "id": "music.amazon.com___.__",
+    "title": "Amazon Music",
     "version": "1.0.0",
-    "description": "parser for animex.one",
-    "domain": [
-      "animex.one",
-      "animex.two"
-    ],
+    "description": "On-demand music streaming service with songs, playlists, and integrated podcasts.",
+    "domain": "music.amazon.com",
     "urlPatterns": [
-      "/.*/",
-      "/home.*/"
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/amazonMusic.js"
+  },
+  {
+    "id": "primevideo.com___.__",
+    "title": "Amazon Prime Video",
+    "version": "1.0.0",
+    "description": "Stream popular movies, TV shows, sports, and live TV.",
+    "domain": "primevideo.com",
+    "urlPatterns": [
+      "/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -39,8 +58,718 @@
     ],
     "homepage": "",
     "mode": "watch",
-    "watchAutoDetect": "enable",
+    "watchAutoDetect": "disable",
     "tags": [],
-    "file": "scripts/animex.json"
+    "file": "scripts/_default/amazonPrimeVideo.js"
+  },
+  {
+    "id": "anime.nexus_____watch___",
+    "title": "Anime Nexus",
+    "version": "1.0.0",
+    "description": "Anime Nexus is your ultimate destination for discovering, streaming, and discussing all things anime.",
+    "domain": "anime.nexus",
+    "urlPatterns": [
+      "/\\/watch\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/animeNexus.js"
+  },
+  {
+    "id": "animepahe.pw_____play___",
+    "title": "animepahe",
+    "version": "1.0.0",
+    "description": "Animepahe lets you watch anime online with fast streaming servers.",
+    "domain": [
+      "animepahe.pw",
+      "animepahe.com",
+      "animepahe.org"
+    ],
+    "urlPatterns": [
+      "/\\/play\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/animepahe.js"
+  },
+  {
+    "id": "animetsu.cc_____watch___",
+    "title": "Animetsu",
+    "version": "1.0.0",
+    "description": "Animetsu is a free anime streaming site where you can watch anime in HD quality.",
+    "domain": [
+      "animetsu.cc",
+      "animetsu.bz",
+      "animetsu.live"
+    ],
+    "urlPatterns": [
+      "/\\/watch\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/animetsu.js"
+  },
+  {
+    "id": "anison.fm___.__",
+    "title": "ANISON.FM",
+    "version": "1.0.0",
+    "description": "Online radio station specializing in anime openings, endings, and Japanese tracks.",
+    "domain": [
+      "anison.fm",
+      "en.anison.fm",
+      "cn.anison.fm"
+    ],
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/anisonfm.js"
+  },
+  {
+    "id": "music.apple.com___.__",
+    "title": "Apple Music",
+    "version": "1.0.0",
+    "description": "Subscription-based music streaming service with on-demand playback, curated playlists, and Apple ecosystem integration.",
+    "domain": "music.apple.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/appleMusic.js"
+  },
+  {
+    "id": "ashiya.radio___.__",
+    "title": "Ashiya Radio",
+    "version": "1.0.0",
+    "description": "Japanese online radio station featuring jazz and international music.",
+    "domain": "ashiya.radio",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/ashiyaRadio.js"
+  },
+  {
+    "id": "asiadreamradio.torontocast.stream___stations.__",
+    "title": "Asia Dream Radio",
+    "version": "1.0.0",
+    "description": "Online radio focused on J-Pop, Asian hits, and Japanese music.",
+    "domain": "asiadreamradio.torontocast.stream",
+    "urlPatterns": [
+      "/stations.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/asiaDreamRadio.js"
+  },
+  {
+    "id": "bilibili.tv______play_video____",
+    "title": "BiliBiliTV",
+    "version": "1.0.0",
+    "description": "Southeast Asia",
+    "domain": "bilibili.tv",
+    "urlPatterns": [
+      "/\\/(play|video)\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/biliBiliTV.js"
+  },
+  {
+    "id": "danceradio.show___.__",
+    "title": "Dance Radio",
+    "version": "1.0.0",
+    "description": "Online dance music radio station streaming current hits and",
+    "domain": "danceradio.show",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/danceRadio.js"
+  },
+  {
+    "id": "deezer.com___.__",
+    "title": "Deezer",
+    "version": "1.0.0",
+    "description": "Global on-demand music streaming with playlists and recommendations.",
+    "domain": "deezer.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/deezer.js"
+  },
+  {
+    "id": "gensokyoradio.net_____playing___",
+    "title": "Gensokyo Radio",
+    "version": "1.0.0",
+    "description": "Fan-run 24/7 radio station dedicated to Touhou Project fan arrangements and related music.",
+    "domain": "gensokyoradio.net",
+    "urlPatterns": [
+      "/\\/playing\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "https://gensokyoradio.net/playing/",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/gensokyoRadio.js"
+  },
+  {
+    "id": "iheart.com___.__",
+    "title": "iHeart",
+    "version": "1.0.0",
+    "description": "Aggregator for live radio stations, custom music channels, and podcasts.",
+    "domain": "iheart.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/iHeart.js"
+  },
+  {
+    "id": "j1fm.tokyo___player.__",
+    "title": "J1FM",
+    "version": "1.0.0",
+    "description": "Online radio playing Japanese pop hits and related music.",
+    "domain": "j1fm.tokyo",
+    "urlPatterns": [
+      "/player.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "https://www.j1fm.tokyo/player/j1hits/",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/j1FM.js"
+  },
+  {
+    "id": "jetsetradio.live___.__",
+    "title": "Jet Set Radio",
+    "version": "1.0.0",
+    "description": "Fan-made browser radio inspired by Jet Set Radio, streaming funky retro and hip-hop tracks 24/7.",
+    "domain": "jetsetradio.live",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/jetSetRadio.js"
+  },
+  {
+    "id": "kick.com______w__",
+    "title": "Kick",
+    "version": "1.0.0",
+    "description": "Kick is a streaming platform that makes it easy for you to find and watch your favorite content.",
+    "domain": "kick.com",
+    "urlPatterns": [
+      "/\\/\\w+/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/kick.js"
+  },
+  {
+    "id": "listen.moe___.__",
+    "title": "LISTEN.moe",
+    "version": "1.0.0",
+    "description": "Fan-operated 24/7 streaming radio for anime, Japanese idol, vocaloid, and related tracks.",
+    "domain": "listen.moe",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/listenMoe.js"
+  },
+  {
+    "id": "miruro.to_____watch___",
+    "title": "Miruro",
+    "version": "1.0.0",
+    "description": "Free anime streaming site with HD quality subbed and dubbed options.",
+    "domain": [
+      "miruro.to",
+      "miruro.tv",
+      "miruro.online",
+      "miruro.bz"
+    ],
+    "urlPatterns": [
+      "/\\/watch\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/miruro.js"
+  },
+  {
+    "id": "plaza.one___.__",
+    "title": "Nightwave Plaza",
+    "version": "1.0.0",
+    "description": "24/7 online radio focused on vaporwave and retro aesthetic music.",
+    "domain": "plaza.one",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/plazaOne.js"
+  },
+  {
+    "id": "onlineradiobox.com___.__",
+    "title": "Online Radio Box",
+    "version": "1.0.0",
+    "description": "Directory and streaming platform that aggregates thousands of online radio stations worldwide.",
+    "domain": "onlineradiobox.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/onlineradiobox.js"
+  },
+  {
+    "id": "pandora.com___.__",
+    "title": "Pandora",
+    "version": "1.0.0",
+    "description": "Personalized music streaming and radio with on-demand options.",
+    "domain": "pandora.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/pandora.js"
+  },
+  {
+    "id": "r-a-d.io___.__",
+    "title": "R/a/dio",
+    "version": "1.0.0",
+    "description": "Community-driven 24/7 online radio streaming anime and Japanese music with song requests.",
+    "domain": "r-a-d.io",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/r-a-dio.js"
+  },
+  {
+    "id": "radio.garden___.__",
+    "title": "Radio Garden",
+    "version": "1.0.0",
+    "description": "Interactive globe for exploring live radio stations worldwide.",
+    "domain": "radio.garden",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/radioGarden.js"
+  },
+  {
+    "id": "radioparadise.com___.__",
+    "title": "Radio Paradise",
+    "version": "1.0.0",
+    "description": "Listener-supported, ad-free curated online radio with eclectic music selections.",
+    "domain": "radioparadise.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/radioParadise.js"
+  },
+  {
+    "id": "radio.net___.__",
+    "title": "radio.net",
+    "version": "1.0.0",
+    "description": "Large aggregator providing access to thousands of global radio stations.",
+    "domain": "radio.net",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/radioNet.js"
+  },
+  {
+    "id": "basic.pp.ua_______",
+    "title": "Sasalele Music Station",
+    "version": "1.0.0",
+    "description": "Curated directory for hundreds of music radio streams.",
+    "domain": "basic.pp.ua",
+    "urlPatterns": [
+      "/^\\//"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/sasaleleMusicStation.js"
+  },
+  {
+    "id": "soundcloud.com___.__",
+    "title": "Soundcloud",
+    "version": "1.0.0",
+    "description": "Community platform for discovering and sharing independent music uploads.",
+    "domain": "soundcloud.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/soundcloud.js"
+  },
+  {
+    "id": "tidal.com___.__",
+    "title": "Tidal",
+    "version": "1.0.0",
+    "description": "High-fidelity on-demand music streaming service.",
+    "domain": "tidal.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/tidal.js"
+  },
+  {
+    "id": "tunein.com___.__",
+    "title": "TuneIn",
+    "version": "1.0.0",
+    "description": "Aggregator for live radio, music streams, podcasts, and news audio.",
+    "domain": "tunein.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/tuneIn.js"
+  },
+  {
+    "id": "twitch.tv______w__",
+    "title": "Twitch",
+    "version": "1.0.0",
+    "description": "Twitch is an interactive livestreaming service for content spanning gaming, entertainment, sports, music, and more.",
+    "domain": "twitch.tv",
+    "urlPatterns": [
+      "/\\/\\w+/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/twitch.js"
+  },
+  {
+    "id": "vk.com___.__",
+    "title": "VK",
+    "version": "1.0.0",
+    "description": "Music streaming and discovery integrated into the VK social platform.",
+    "domain": "vk.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/vk.js"
+  },
+  {
+    "id": "radio.wapchan.org___public__wapfm_",
+    "title": "wap-fm",
+    "version": "1.0.0",
+    "description": "Community-run online radio on the Wapchan anime/manga forum.",
+    "domain": "radio.wapchan.org",
+    "urlPatterns": [
+      "/public\\/wapfm/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "https://radio.wapchan.org/public/wapfm",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/wap-fm.js"
+  },
+  {
+    "id": "youtube.com___.__",
+    "title": "YouTube",
+    "version": "1.0.0",
+    "description": "Video-sharing platform hosting music, live streams, and other content.",
+    "domain": "youtube.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "watch",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/youtube.js"
+  },
+  {
+    "id": "music.youtube.com___.__",
+    "title": "YouTube Music",
+    "version": "1.0.0",
+    "description": "Music streaming service with official tracks, remixes, and video integration.",
+    "domain": "music.youtube.com",
+    "urlPatterns": [
+      "/.*/"
+    ],
+    "authors": [
+      "kanashiiDev"
+    ],
+    "authorsLinks": [
+      "https://github.com/KanashiiDev"
+    ],
+    "homepage": "",
+    "mode": "listen",
+    "watchAutoDetect": "disable",
+    "tags": [],
+    "file": "scripts/_default/ytMusic.js"
   }
 ]
