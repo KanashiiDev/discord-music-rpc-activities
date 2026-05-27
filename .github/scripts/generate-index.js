@@ -3,6 +3,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const vm = require("vm");
 
 const SCRIPTS_DIR = path.resolve(__dirname, "../../scripts");
 const OUTPUT_FILE = path.resolve(__dirname, "../../index.json");
@@ -40,82 +41,88 @@ function parseUserScriptBlock(source) {
     homepage: single("homepage", ""),
     mode: single("mode", "listen"),
     watchAutoDetect: single("watchautodetect", "disable"),
+    category: single("category", ""),
     tags: multi("tag"),
   };
 }
 
 function parseRegisterParserFormat(source) {
-  if (!source.includes("registerParser(")) return null;
+  if (!source.includes("registerParser")) return null;
 
-  const cleanStr = (s) =>
-    s
-      .trim()
-      .replace(/^["'`]|["'`]$/g, "")
-      .trim();
+  let capturedConfig = null;
 
-  const extractRaw = (key) => {
-    for (const k of [key, key.toLowerCase()]) {
-      const m = new RegExp(`\\b${k}\\s*:\\s*(\\[[\\s\\S]*?\\]|["'\`][^"'\`]*?["'\`])`).exec(source);
-      if (m) return m[1].trim();
-    }
-    return null;
+  const mockRegisterParser = (config) => {
+    capturedConfig = config;
   };
 
-  const parseArrayOrString = (raw) => {
-    if (!raw) return [];
-    if (raw.startsWith("[")) {
-      return raw.slice(1, -1).split(",").map(cleanStr).filter(Boolean);
-    }
-    return [cleanStr(raw)];
+  const sandbox = {
+    registerParser: mockRegisterParser,
+    window: {
+      registerParser: mockRegisterParser,
+    },
+    document: {},
+    console: { log: () => {}, error: () => {} },
+    setTimeout: () => {},
+    setInterval: () => {},
+    navigator: {},
+    location: { href: "http://localhost" },
+    Image: function () {},
+    Audio: function () {},
   };
 
-  const domainRaw = extractRaw("domain");
-  const titleRaw = extractRaw("title");
-  const versionRaw = extractRaw("version");
-  const descriptionRaw = extractRaw("description");
-  const homepageRaw = extractRaw("homepage");
-  const modeRaw = extractRaw("mode");
-  const watchAutoDetectRaw = extractRaw("watchAutoDetect");
-  const authorsRaw = extractRaw("authors");
-  const authorsLinksRaw = extractRaw("authorsLinks");
+  try {
+    const script = new vm.Script(source);
+    const context = vm.createContext(sandbox);
+    script.runInContext(context, { timeout: 1000 });
+  } catch (err) {
+    try {
+      const fallbackSource = `
+        const registerParser = ${mockRegisterParser.toString()};
+        const window = { registerParser };
+        ${source}
+      `;
+      const fallbackScript = new vm.Script(fallbackSource);
+      const fallbackContext = vm.createContext({ console: { log: () => {} } });
+      fallbackScript.runInContext(fallbackContext, { timeout: 1000 });
+    } catch (_) {}
+  }
 
-  const domain = parseArrayOrString(domainRaw);
-  const title = titleRaw ? cleanStr(titleRaw) : null;
-  const version = versionRaw ? cleanStr(versionRaw) : null;
-  const description = descriptionRaw ? cleanStr(descriptionRaw) : "";
-  const homepage = homepageRaw ? cleanStr(homepageRaw) : "";
-  const mode = modeRaw ? cleanStr(modeRaw) : "listen";
-  const watchAutoDetect = watchAutoDetectRaw ? cleanStr(watchAutoDetectRaw) : "disable";
+  if (!capturedConfig) return null;
 
-  if (!domain.length && !title) return null;
+  const rawDomain = capturedConfig.domain;
+  const domain = Array.isArray(rawDomain) ? rawDomain.map((d) => d.trim()).filter(Boolean) : rawDomain ? [rawDomain.trim()] : [];
 
-  const urlRaw = /\burlPatterns\s*:\s*\[([\s\S]*?)\]/.exec(source)?.[1] || "";
-  const urlPatterns = urlRaw
-    .split(",")
-    .map((p) => {
-      p = p.trim().replace(/^["'`]|["'`]$/g, "");
-      if (!p) return null;
-      if (/^\/.+\/$/.test(p)) return p;
-      if (/^\//.test(p)) return p + "/";
-      return `/${p}/`;
-    })
-    .filter(Boolean);
+  const rawUrls = capturedConfig.urlPatterns || [];
+  const urlPatterns = rawUrls.map((p) => {
+    if (p instanceof RegExp) return `/${p.source}/`;
+    let s = String(p).trim();
+    if (/^\/.+\/$/.test(s)) return s;
+    if (/^\//.test(s)) return s + "/";
+    return `/${s}/`;
+  });
+
+  const cleanArray = (val) => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val.map((v) => String(v).trim()).filter(Boolean);
+    return [String(val).trim()];
+  };
 
   return {
     _format: "register-parser",
-    _hasVersion: !!version,
+    _hasVersion: !!capturedConfig.version,
     id: null,
-    name: title || null,
-    version: version || "1.0.0",
-    description: description || "",
+    name: capturedConfig.title || null,
+    version: capturedConfig.version || "1.0.0",
+    description: capturedConfig.description || "",
     domain: domain,
     urlPatterns: urlPatterns.length ? urlPatterns : ["/.*/"],
-    authors: parseArrayOrString(authorsRaw),
-    authorsLinks: parseArrayOrString(authorsLinksRaw),
-    homepage: homepage,
-    mode: mode,
-    watchAutoDetect: watchAutoDetect,
-    tags: [],
+    authors: cleanArray(capturedConfig.authors),
+    authorsLinks: cleanArray(capturedConfig.authorsLinks),
+    homepage: capturedConfig.homepage || "",
+    mode: capturedConfig.mode || "listen",
+    watchAutoDetect: capturedConfig.watchAutoDetect || "disable",
+    category: capturedConfig.category || "",
+    tags: cleanArray(capturedConfig.tags),
   };
 }
 
@@ -194,6 +201,7 @@ function main() {
           homepage: data.homepage || "",
           mode: data.mode || "listen",
           watchAutoDetect: data.watchAutoDetect || "disable",
+          category: data.category || "",
           tags: data.tags || [],
         };
         fmt = "[JSON Config] ";
@@ -228,7 +236,7 @@ function main() {
       continue;
     }
 
-    if ((meta._format === "register-parser" || meta._format === "json-config") && meta.version === "1.0.0") {
+    if ((meta._format === "register-parser" || meta._format === "json-config") && !meta._hasVersion) {
       warnings.push({ file: relPath, warn: "No version, 1.0.0 assumed. Add 'version' to the export/config format." });
     }
 
@@ -251,6 +259,7 @@ function main() {
       homepage: meta.homepage,
       mode: meta.mode,
       watchAutoDetect: meta.watchAutoDetect,
+      category: meta.category,
       tags: meta.tags,
       file: relPath,
     });
