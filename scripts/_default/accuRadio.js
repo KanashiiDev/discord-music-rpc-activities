@@ -5,6 +5,8 @@ registerParser({
   title: "AccuRadio",
   version: "1.0.0",
   description: "Free online radio platform with hundreds of curated music channels across genres.",
+  category: "radio",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const player = document.querySelector("#playerContents");

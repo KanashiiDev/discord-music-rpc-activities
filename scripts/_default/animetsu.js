@@ -6,7 +6,9 @@ registerParser({
   version: "1.0.0",
   description: "Animetsu is a free anime streaming site where you can watch anime in HD quality.",
   mode: "watch",
-  urlPatterns: [/\/watch\//],
+  tags: ["anime"],
+  mode: "watch",
+  urlPatterns: [/\/watch\/.*/],
   iframeSelectors: { fields: { $video: { type: "video" } } },
   fn: async function () {
     const iframe = await getIframeData();

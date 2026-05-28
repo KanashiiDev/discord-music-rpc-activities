@@ -5,6 +5,8 @@ registerParser({
   title: "Radio Garden",
   version: "1.0.0",
   description: "Interactive globe for exploring live radio stations worldwide.",
+  category: "aggregator",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const root = document.querySelector("div[class*='_channelTitle_']");

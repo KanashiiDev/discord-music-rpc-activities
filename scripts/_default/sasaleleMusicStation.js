@@ -5,6 +5,8 @@ registerParser({
   title: "Sasalele Music Station",
   version: "1.0.0",
   description: "Curated directory for hundreds of music radio streams.",
+  category: "aggregator",
+  tags: [],
   urlPatterns: [/^\//],
   fn: function () {
     const meta = getText("#metadataDisplay").split(" - ");

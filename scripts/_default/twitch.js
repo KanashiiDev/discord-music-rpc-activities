@@ -5,6 +5,8 @@ registerParser({
   title: "Twitch",
   version: "1.0.0",
   description: "Twitch is an interactive livestreaming service for content spanning gaming, entertainment, sports, music, and more.",
+  category: "platform",
+  tags: ["streaming"],
   mode: "watch",
   urlPatterns: [/\/\w+/],
   fn: function () {

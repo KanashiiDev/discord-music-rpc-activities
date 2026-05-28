@@ -5,6 +5,8 @@ registerParser({
   title: "Nightwave Plaza",
   version: "1.0.0",
   description: "24/7 online radio focused on vaporwave and retro aesthetic music.",
+  category: "radio",
+  tags: ["vaporwave", "retro"],
   urlPatterns: [/.*/],
   fn: function () {
     const timeElem = getText(".player-time");

@@ -5,6 +5,8 @@ registerParser({
   title: "Tidal",
   version: "1.0.0",
   description: "High-fidelity on-demand music streaming service.",
+  category: "platform",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const main = document.querySelector("[data-test='footer-player']");

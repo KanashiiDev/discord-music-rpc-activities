@@ -5,7 +5,9 @@ registerParser({
   title: "Dance Radio",
   version: "1.0.0",
   description: "Online dance music radio station streaming current hits and '00s/'90s throwbacks 24/7.",
-  urlPatterns: [/.*/],
+  category: "radio",
+  tags: [],
+  rlPatterns: [/.*/],
   iframeSelectors: { match: ["embed.radio.co"], fields: { playing: { type: "exists", selector: ".radioco-player #playButton.play-button.icon.icon-playerstop" } } },
   fn: async function () {
     const iframe = await getIframeData();

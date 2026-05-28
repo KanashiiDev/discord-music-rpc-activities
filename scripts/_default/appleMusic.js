@@ -5,6 +5,8 @@ registerParser({
   title: "Apple Music",
   version: "1.0.0",
   description: "Subscription-based music streaming service with on-demand playback, curated playlists, and Apple ecosystem integration.",
+  category: "platform",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const lcd = document.querySelector("amp-lcd")?.shadowRoot;

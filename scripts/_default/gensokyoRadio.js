@@ -6,7 +6,9 @@ registerParser({
   version: "1.0.0",
   description: "Fan-run 24/7 radio station dedicated to Touhou Project fan arrangements and related music.",
   homepage: "https://gensokyoradio.net/playing/",
-  urlPatterns: [/\/playing\//],
+  category: "radio",
+  tags: ["anime", "japan", "community"],
+  urlPatterns: [/\/playing\/.*/],
   fn: async function () {
     let data = null;
     try {

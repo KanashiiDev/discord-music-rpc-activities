@@ -6,7 +6,9 @@ registerParser({
   version: "1.0.0",
   description: "Animepahe lets you watch anime online with fast streaming servers.",
   mode: "watch",
-  urlPatterns: [/\/play\//],
+  tags: ["anime"],
+  mode: "watch",
+  urlPatterns: [/\/play\/.*/],
   iframeSelectors: { fields: { $video: { type: "video" } } },
   fn: async function () {
     const iframe = await getIframeData();

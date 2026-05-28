@@ -28,6 +28,17 @@ function parseUserScriptBlock(source) {
   }
   const single = (key, fallback = null) => raw[key]?.[0] ?? fallback;
   const multi = (key) => raw[key] || [];
+
+  let iframeSelectors = null;
+  const rawIframe = single("iframeselectors");
+  if (rawIframe) {
+    try {
+      iframeSelectors = JSON.parse(rawIframe);
+    } catch (_) {
+      console.warn("  ! Could not parse @iframeSelectors JSON in UserScript block");
+    }
+  }
+
   return {
     _format: "userscript-block",
     id: single("id"),
@@ -43,6 +54,7 @@ function parseUserScriptBlock(source) {
     watchAutoDetect: single("watchautodetect", "disable"),
     category: single("category", ""),
     tags: multi("tag"),
+    iframeSelectors,
   };
 }
 
@@ -107,6 +119,20 @@ function parseRegisterParserFormat(source) {
     return [String(val).trim()];
   };
 
+  let iframeSelectors = null;
+  const rawIframe = capturedConfig.iframeSelectors;
+  if (rawIframe !== undefined && rawIframe !== null) {
+    if (typeof rawIframe === "object" && !Array.isArray(rawIframe)) {
+      if (rawIframe.fields && typeof rawIframe.fields === "object") {
+        iframeSelectors = rawIframe;
+      } else {
+        console.warn(`  ! iframeSelectors missing required "fields" key — skipped`);
+      }
+    } else {
+      console.warn(`  ! iframeSelectors must be a plain object — skipped`);
+    }
+  }
+
   return {
     _format: "register-parser",
     _hasVersion: !!capturedConfig.version,
@@ -123,6 +149,7 @@ function parseRegisterParserFormat(source) {
     watchAutoDetect: capturedConfig.watchAutoDetect || "disable",
     category: capturedConfig.category || "",
     tags: cleanArray(capturedConfig.tags),
+    iframeSelectors,
   };
 }
 
@@ -230,6 +257,19 @@ function main() {
         const content = JSON.parse(source);
         const data = Array.isArray(content) ? content[0] : content;
 
+        let iframeSelectors = null;
+        if (data.iframeSelectors !== undefined && data.iframeSelectors !== null) {
+          if (typeof data.iframeSelectors === "object" && !Array.isArray(data.iframeSelectors)) {
+            if (data.iframeSelectors.fields && typeof data.iframeSelectors.fields === "object") {
+              iframeSelectors = data.iframeSelectors;
+            } else {
+              warnings.push({ file: relPath, warn: 'iframeSelectors missing required "fields" key — skipped' });
+            }
+          } else {
+            warnings.push({ file: relPath, warn: "iframeSelectors must be a plain object — skipped" });
+          }
+        }
+
         meta = {
           _format: "json-config",
           id: data.id || null,
@@ -245,6 +285,7 @@ function main() {
           watchAutoDetect: data.watchAutoDetect || "disable",
           category: data.category || "",
           tags: data.tags || [],
+          iframeSelectors,
         };
         fmt = "[JSON Config] ";
       } catch (err) {
@@ -289,7 +330,8 @@ function main() {
     else if (existing.version !== meta.version) console.log(` ^ Updated:${fmt} ${relPath}  ${existing.version} -> v${meta.version}`);
     else console.log(` = It hasn't changed:  ${fmt} ${relPath}  v${meta.version}`);
 
-    entries.push({
+    // Build entry — iframeSelectors only included when present (keeps index.json clean)
+    const entry = {
       id,
       title: meta.name,
       version: meta.version,
@@ -304,7 +346,13 @@ function main() {
       category: meta.category,
       tags: meta.tags,
       file: relPath,
-    });
+    };
+
+    if (meta.iframeSelectors) {
+      entry.iframeSelectors = meta.iframeSelectors;
+    }
+
+    entries.push(entry);
   }
 
   entries.sort((a, b) => a.title.localeCompare(b.title));

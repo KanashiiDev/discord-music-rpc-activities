@@ -5,6 +5,8 @@ registerParser({
   title: "Online Radio Box",
   version: "1.0.0",
   description: "Directory and streaming platform that aggregates thousands of online radio stations worldwide.",
+  category: "aggregator",
+  tags: [],
   urlPatterns: [/.*/],
   fn: async function () {
     async function fetchTrackHistory() {

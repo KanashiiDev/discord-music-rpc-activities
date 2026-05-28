@@ -6,6 +6,8 @@ registerParser({
   version: "1.0.0",
   description: "Kick is a streaming platform that makes it easy for you to find and watch your favorite content.",
   mode: "watch",
+  category: "platform",
+  tags: ["streaming"],
   urlPatterns: [/\/\w+/],
   fn: function () {
     const title = getText("[data-testid='livestream-title']");

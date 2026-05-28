@@ -5,6 +5,8 @@ registerParser({
   title: "Soundcloud",
   version: "1.0.0",
   description: "Community platform for discovering and sharing independent music uploads.",
+  category: "platform",
+  tags: ["community"],
   urlPatterns: [/.*/],
   fn: async function () {
     if (document.querySelector(".fullScreenOverlay")) return;

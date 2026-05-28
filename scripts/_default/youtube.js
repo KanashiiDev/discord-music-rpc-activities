@@ -5,6 +5,8 @@ registerParser({
   title: "YouTube",
   version: "1.0.0",
   description: "Video-sharing platform hosting music, live streams, and other content.",
+  category: ["video", "platform"],
+  tags: [],
   mode: "watch",
   urlPatterns: [/.*/],
   fn: function () {

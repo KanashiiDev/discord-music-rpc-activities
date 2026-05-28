@@ -5,6 +5,8 @@ registerParser({
   title: "radio.net",
   version: "1.0.0",
   description: "Large aggregator providing access to thousands of global radio stations.",
+  category: "aggregator",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     function getStemFromUrl(input) {

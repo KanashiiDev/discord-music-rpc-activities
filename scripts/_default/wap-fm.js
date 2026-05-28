@@ -6,6 +6,8 @@ registerParser({
   version: "1.0.0",
   description: "Community-run online radio on the Wapchan anime/manga forum.",
   homepage: "https://radio.wapchan.org/public/wapfm",
+  category: "radio",
+  tags: ["anime", "community"],
   urlPatterns: [/public\/wapfm/],
   fn: function () {
     const isPlaying = Boolean(document.querySelector(".radio-control-play-button > svg > path")?.getAttribute("d")?.startsWith("M324") || document.querySelector(".radio-player-widget > audio"));

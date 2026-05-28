@@ -5,6 +5,8 @@ registerParser({
   title: "Asia Dream Radio",
   version: "1.0.0",
   description: "Online radio focused on J-Pop, Asian hits, and Japanese music.",
+  category: "radio",
+  tags: ["jpop", "asia"],
   urlPatterns: [/stations.*/],
   fn: async function () {
     function isoToTimeString(iso) {

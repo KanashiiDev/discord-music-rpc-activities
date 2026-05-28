@@ -5,6 +5,8 @@ registerParser({
   title: "Jet Set Radio",
   version: "1.0.0",
   description: "Fan-made browser radio inspired by Jet Set Radio, streaming funky retro and hip-hop tracks 24/7.",
+  category: "radio",
+  tags: ["retro", "community"],
   urlPatterns: [/.*/],
   fn: function () {
     if (document.querySelector("#tvFrame")?.style?.visibility !== "hidden") return null;

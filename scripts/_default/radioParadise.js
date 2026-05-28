@@ -5,6 +5,8 @@ registerParser({
   title: "Radio Paradise",
   version: "1.0.0",
   description: "Listener-supported, ad-free curated online radio with eclectic music selections.",
+  category: "radio",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const currentChannel = getText(".channel-selector div");

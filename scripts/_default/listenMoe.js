@@ -5,6 +5,8 @@ registerParser({
   title: "LISTEN.moe",
   version: "1.0.0",
   description: "Fan-operated 24/7 streaming radio for anime, Japanese idol, vocaloid, and related tracks.",
+  category: "radio",
+  tags: ["anime", "japan", "community"],
   urlPatterns: [/.*/],
   fn: function () {
     let title = getText(".glass span.text-text-primary");

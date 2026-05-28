@@ -5,8 +5,10 @@ registerParser({
   title: "Miruro",
   version: "1.0.0",
   description: "Free anime streaming site with HD quality subbed and dubbed options.",
+  category: "video",
+  tags: ["anime"],
   mode: "watch",
-  urlPatterns: [/\/watch\//],
+  urlPatterns: [/\/watch\/.*/],
   iframeSelectors: { fields: { $video: { type: "video" } } },
   fn: async function () {
     const iframe = await getIframeData();

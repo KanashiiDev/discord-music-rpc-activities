@@ -6,6 +6,8 @@ registerParser({
   version: "1.0.0",
   description: "Japanese online radio station featuring jazz and international music.",
   urlPatterns: [/.*/],
+  category: "radio",
+  tags: ["jazz", "japan"],
   iframeSelectors: { match: ["embed.radio.co"], fields: { playing: { type: "exists", selector: ".radioco-player #playButton.play-button.icon.icon-playerstop" } } },
   fn: async function () {
     const iframe = await getIframeData();

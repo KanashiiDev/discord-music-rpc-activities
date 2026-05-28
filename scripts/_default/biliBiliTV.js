@@ -5,8 +5,10 @@ registerParser({
   title: "BiliBiliTV",
   version: "1.0.0",
   description: "Southeast Asia's leading ACG community where people can create, watch and share engaging videos.",
+  category: "video",
+  tags: ["anime"],
   mode: "watch",
-  urlPatterns: [/\/(play|video)\//],
+  urlPatterns: [/\/(play|video)\/.*/],
   iframeSelectors: { fields: { $video: { type: "video" } } },
   fn: async function () {
     const iframe = await getIframeData();

@@ -5,6 +5,8 @@ registerParser({
   title: "TuneIn",
   version: "1.0.0",
   description: "Aggregator for live radio, music streams, podcasts, and news audio.",
+  category: "aggregator",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const title = getText("#playerTitle");

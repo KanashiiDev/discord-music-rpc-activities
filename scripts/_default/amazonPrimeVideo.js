@@ -7,6 +7,8 @@ registerParser({
   description: "Stream popular movies, TV shows, sports, and live TV.",
   mode: "watch",
   urlPatterns: [/.*/],
+  category: ["video", "platform"],
+  tags: [],
   fn: function () {
     const title = getText(".atvwebplayersdk-episode-info");
     const artist = getText(".atvwebplayersdk-title-text");

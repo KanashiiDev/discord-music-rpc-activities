@@ -5,6 +5,8 @@ registerParser({
   title: "VK",
   version: "1.0.0",
   description: "Music streaming and discovery integrated into the VK social platform.",
+  category: "platform",
+  tags: ["community"],
   urlPatterns: [/.*/],
   fn: async function () {
     //@world main

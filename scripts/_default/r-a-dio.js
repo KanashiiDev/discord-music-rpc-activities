@@ -5,6 +5,8 @@ registerParser({
   title: "R/a/dio",
   version: "1.0.0",
   description: "Community-driven 24/7 online radio streaming anime and Japanese music with song requests.",
+  category: "radio",
+  tags: ["anime", "japan", "community"],
   urlPatterns: [/.*/],
   fn: function () {
     const isPlaying = Boolean(

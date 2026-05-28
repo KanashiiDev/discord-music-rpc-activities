@@ -5,6 +5,8 @@ registerParser({
   title: "Pandora",
   version: "1.0.0",
   description: "Personalized music streaming and radio with on-demand options.",
+  category: "platform",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const player = document.querySelector(".region-bottomBar");

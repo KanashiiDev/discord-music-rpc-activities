@@ -5,6 +5,8 @@ registerParser({
   title: "YouTube Music",
   version: "1.0.0",
   description: "Music streaming service with official tracks, remixes, and video integration.",
+  category: "platform",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const songLink = document.querySelector("#movie_player .ytp-title a")?.href;

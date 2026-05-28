@@ -5,6 +5,8 @@ registerParser({
   title: "Amazon Music",
   version: "1.0.0",
   description: "On-demand music streaming service with songs, playlists, and integrated podcasts.",
+  category: "platform",
+  tags: [],
   urlPatterns: [/.*/],
   fn: function () {
     const main = document.querySelector("music-horizontal-item")?.shadowRoot;
