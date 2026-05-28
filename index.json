@@ -17,7 +17,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "radio",
     "tags": [],
     "file": "scripts/_default/accuRadio.js"
   },
@@ -39,7 +39,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/amazonMusic.js"
   },
@@ -61,7 +61,10 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": [
+      "video",
+      "platform"
+    ],
     "tags": [],
     "file": "scripts/_default/amazonPrimeVideo.js"
   },
@@ -72,7 +75,7 @@
     "description": "Anime Nexus is your ultimate destination for discovering, streaming, and discussing all things anime.",
     "domain": "anime.nexus",
     "urlPatterns": [
-      "/\\/watch\\//"
+      "/\\/watch\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -84,8 +87,17 @@
     "mode": "watch",
     "watchAutoDetect": "disable",
     "category": "",
-    "tags": [],
-    "file": "scripts/_default/animeNexus.js"
+    "tags": [
+      "anime"
+    ],
+    "file": "scripts/_default/animeNexus.js",
+    "iframeSelectors": {
+      "fields": {
+        "$video": {
+          "type": "video"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_animepahepw_L1wvcGxheV",
@@ -98,7 +110,7 @@
       "animepahe.org"
     ],
     "urlPatterns": [
-      "/\\/play\\//"
+      "/\\/play\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -110,8 +122,17 @@
     "mode": "watch",
     "watchAutoDetect": "disable",
     "category": "",
-    "tags": [],
-    "file": "scripts/_default/animepahe.js"
+    "tags": [
+      "anime"
+    ],
+    "file": "scripts/_default/animepahe.js",
+    "iframeSelectors": {
+      "fields": {
+        "$video": {
+          "type": "video"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_animetsucc_L1wvd2F0Y2",
@@ -124,7 +145,7 @@
       "animetsu.live"
     ],
     "urlPatterns": [
-      "/\\/watch\\//"
+      "/\\/watch\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -136,8 +157,17 @@
     "mode": "watch",
     "watchAutoDetect": "disable",
     "category": "",
-    "tags": [],
-    "file": "scripts/_default/animetsu.js"
+    "tags": [
+      "anime"
+    ],
+    "file": "scripts/_default/animetsu.js",
+    "iframeSelectors": {
+      "fields": {
+        "$video": {
+          "type": "video"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_anisonfm_Ly4qLw",
@@ -161,8 +191,12 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "anime",
+      "japan",
+      "community"
+    ],
     "file": "scripts/_default/anisonfm.js"
   },
   {
@@ -183,7 +217,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/appleMusic.js"
   },
@@ -205,9 +239,23 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
-    "file": "scripts/_default/ashiyaRadio.js"
+    "category": "radio",
+    "tags": [
+      "jazz",
+      "japan"
+    ],
+    "file": "scripts/_default/ashiyaRadio.js",
+    "iframeSelectors": {
+      "match": [
+        "embed.radio.co"
+      ],
+      "fields": {
+        "playing": {
+          "type": "exists",
+          "selector": ".radioco-player #playButton.play-button.icon.icon-playerstop"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_asiadreamradiotorontocaststream_L3N0YXRpb2",
@@ -227,8 +275,11 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "jpop",
+      "asia"
+    ],
     "file": "scripts/_default/asiaDreamRadio.js"
   },
   {
@@ -238,7 +289,7 @@
     "description": "Southeast Asia's leading ACG community where people can create, watch and share engaging videos.",
     "domain": "bilibili.tv",
     "urlPatterns": [
-      "/\\/(play|video)\\//"
+      "/\\/(play|video)\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -249,9 +300,18 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
-    "file": "scripts/_default/biliBiliTV.js"
+    "category": "video",
+    "tags": [
+      "anime"
+    ],
+    "file": "scripts/_default/biliBiliTV.js",
+    "iframeSelectors": {
+      "fields": {
+        "$video": {
+          "type": "video"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_danceradioshow_Ly4qLw",
@@ -271,9 +331,20 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "radio",
     "tags": [],
-    "file": "scripts/_default/danceRadio.js"
+    "file": "scripts/_default/danceRadio.js",
+    "iframeSelectors": {
+      "match": [
+        "embed.radio.co"
+      ],
+      "fields": {
+        "playing": {
+          "type": "exists",
+          "selector": ".radioco-player #playButton.play-button.icon.icon-playerstop"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_deezercom_Ly4qLw",
@@ -293,7 +364,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/deezer.js"
   },
@@ -304,7 +375,7 @@
     "description": "Fan-run 24/7 radio station dedicated to Touhou Project fan arrangements and related music.",
     "domain": "gensokyoradio.net",
     "urlPatterns": [
-      "/\\/playing\\//"
+      "/\\/playing\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -315,8 +386,12 @@
     "homepage": "https://gensokyoradio.net/playing/",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "anime",
+      "japan",
+      "community"
+    ],
     "file": "scripts/_default/gensokyoRadio.js"
   },
   {
@@ -337,8 +412,12 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "aggregator",
+    "tags": [
+      "music",
+      "podcast",
+      "radio"
+    ],
     "file": "scripts/_default/iHeart.js"
   },
   {
@@ -359,8 +438,10 @@
     "homepage": "https://www.j1fm.tokyo/player/j1hits/",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "japan"
+    ],
     "file": "scripts/_default/j1FM.js"
   },
   {
@@ -381,8 +462,11 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "retro",
+      "community"
+    ],
     "file": "scripts/_default/jetSetRadio.js"
   },
   {
@@ -403,8 +487,10 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "platform",
+    "tags": [
+      "streaming"
+    ],
     "file": "scripts/_default/kick.js"
   },
   {
@@ -425,8 +511,12 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "anime",
+      "japan",
+      "community"
+    ],
     "file": "scripts/_default/listenMoe.js"
   },
   {
@@ -441,7 +531,7 @@
       "miruro.bz"
     ],
     "urlPatterns": [
-      "/\\/watch\\//"
+      "/\\/watch\\/.*/"
     ],
     "authors": [
       "kanashiiDev"
@@ -452,9 +542,18 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
-    "file": "scripts/_default/miruro.js"
+    "category": "video",
+    "tags": [
+      "anime"
+    ],
+    "file": "scripts/_default/miruro.js",
+    "iframeSelectors": {
+      "fields": {
+        "$video": {
+          "type": "video"
+        }
+      }
+    }
   },
   {
     "id": "kanashiidev_plazaone_Ly4qLw",
@@ -474,8 +573,11 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "vaporwave",
+      "retro"
+    ],
     "file": "scripts/_default/plazaOne.js"
   },
   {
@@ -496,7 +598,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "aggregator",
     "tags": [],
     "file": "scripts/_default/onlineradiobox.js"
   },
@@ -518,7 +620,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/pandora.js"
   },
@@ -540,8 +642,12 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "anime",
+      "japan",
+      "community"
+    ],
     "file": "scripts/_default/r-a-dio.js"
   },
   {
@@ -562,7 +668,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "aggregator",
     "tags": [],
     "file": "scripts/_default/radioGarden.js"
   },
@@ -584,7 +690,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "radio",
     "tags": [],
     "file": "scripts/_default/radioParadise.js"
   },
@@ -606,7 +712,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "aggregator",
     "tags": [],
     "file": "scripts/_default/radioNet.js"
   },
@@ -628,7 +734,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "aggregator",
     "tags": [],
     "file": "scripts/_default/sasaleleMusicStation.js"
   },
@@ -650,8 +756,10 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "platform",
+    "tags": [
+      "community"
+    ],
     "file": "scripts/_default/soundcloud.js"
   },
   {
@@ -672,7 +780,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/tidal.js"
   },
@@ -694,7 +802,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "aggregator",
     "tags": [],
     "file": "scripts/_default/tuneIn.js"
   },
@@ -716,8 +824,10 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "platform",
+    "tags": [
+      "streaming"
+    ],
     "file": "scripts/_default/twitch.js"
   },
   {
@@ -738,8 +848,10 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "platform",
+    "tags": [
+      "community"
+    ],
     "file": "scripts/_default/vk.js"
   },
   {
@@ -760,8 +872,11 @@
     "homepage": "https://radio.wapchan.org/public/wapfm",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
-    "tags": [],
+    "category": "radio",
+    "tags": [
+      "anime",
+      "community"
+    ],
     "file": "scripts/_default/wap-fm.js"
   },
   {
@@ -782,7 +897,10 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": [
+      "video",
+      "platform"
+    ],
     "tags": [],
     "file": "scripts/_default/youtube.js"
   },
@@ -804,7 +922,7 @@
     "homepage": "",
     "mode": "listen",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "platform",
     "tags": [],
     "file": "scripts/_default/ytMusic.js"
   }
