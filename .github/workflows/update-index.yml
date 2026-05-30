@@ -51,19 +51,19 @@ jobs:
   generate:
     name: Generate index.json
     runs-on: ubuntu-latest
-    #Working in PRs, only on real pushes
+    # Working in PRs, only on real pushes
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
-    #Do not start before validating
+    # Do not start before validating
     needs: validate
 
     permissions:
-      contents: write #to be able to commit index.json
+      contents: write # to be able to commit index.json
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          #A token is required for the bot to be able to commit
+          # A token is required for the bot to be able to commit
           token: ${{ secrets.GITHUB_TOKEN }}
           # Get all history (for diff)
           fetch-depth: 0
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Generate index.json
+      - name: Generate index.json + index.json.gz + hash.json
         run: |
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             node .github/scripts/generate-index.js --dry-run --verbose
@@ -81,31 +81,43 @@ jobs:
             node .github/scripts/generate-index.js --verbose
           fi
 
-      - name: Check if index.json changed
+      - name: Check if output files changed
         id: diff
         run: |
-          if git diff --quiet index.json; then
+          # Track all three generated files
+          CHANGED_FILES=$(git diff --name-only index.json index.json.gz hash.json 2>/dev/null || true)
+          if [ -z "$CHANGED_FILES" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "ℹ️  index.json didn't change, the commit is being skipped."
+            echo "ℹ️  No output files changed, skipping commit."
           else
             echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ index.json Updated."
-            git diff --stat index.json
+            echo "✅ Changed files:"
+            echo "$CHANGED_FILES"
+            git diff --stat index.json hash.json 2>/dev/null || true
+            # Show gz size for info (binary, no text diff)
+            if git diff --quiet index.json.gz 2>/dev/null; then
+              echo "   index.json.gz: unchanged"
+            else
+              echo "   index.json.gz: updated ($(wc -c < index.json.gz) bytes)"
+            fi
           fi
 
-      - name: Commit & Push index.json
+      - name: Commit & Push generated files
         if: steps.diff.outputs.changed == 'true' && github.event.inputs.dry_run != 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json
+          git add index.json index.json.gz hash.json
           git commit -m "chore: auto-update index.json [skip ci]"
           git push
 
-      - name: Upload index.json as artifact
+      - name: Upload generated files as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: index-json
-          path: index.json
+          name: index-files
+          path: |
+            index.json
+            index.json.gz
+            hash.json
           retention-days: 7

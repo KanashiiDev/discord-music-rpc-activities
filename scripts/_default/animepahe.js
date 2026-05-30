@@ -6,6 +6,7 @@ registerParser({
   version: "1.0.0",
   description: "Animepahe lets you watch anime online with fast streaming servers.",
   mode: "watch",
+  category: "video",
   tags: ["anime"],
   mode: "watch",
   urlPatterns: [/\/play\/.*/],

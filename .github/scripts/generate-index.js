@@ -4,9 +4,13 @@
 const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
+const zlib = require("zlib");
+const crypto = require("crypto");
 
 const SCRIPTS_DIR = path.resolve(__dirname, "../../scripts");
 const OUTPUT_FILE = path.resolve(__dirname, "../../index.json");
+const GZ_FILE = path.resolve(__dirname, "../../index.json.gz");
+const HASH_FILE = path.resolve(__dirname, "../../hash.json");
 const REPO_ROOT = path.resolve(__dirname, "../../");
 
 function parseUserScriptBlock(source) {
@@ -242,7 +246,12 @@ function main() {
 
   if (!scriptFiles.length) {
     console.log("scripts/ empty.");
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify([], null, 2) + "\n", "utf8");
+    const emptyJson = JSON.stringify([]);
+    fs.writeFileSync(OUTPUT_FILE, "[]" + "\n", "utf8");
+    const emptyGz = zlib.gzipSync(Buffer.from(emptyJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
+    fs.writeFileSync(GZ_FILE, emptyGz);
+    const emptyHash = { sha256: crypto.createHash("sha256").update(emptyJson).digest("hex"), size: 2, gzSize: emptyGz.length, count: 0, generatedAt: new Date().toISOString() };
+    fs.writeFileSync(HASH_FILE, JSON.stringify(emptyHash, null, 2) + "\n", "utf8");
     return;
   }
 
@@ -308,19 +317,51 @@ function main() {
       console.warn(" ? Format unknown:", relPath);
       continue;
     }
-    if (!meta.name) {
-      errors.push({ file: relPath, error: "@name/title required" });
-      console.warn(" ! @name/title missing:", relPath);
-      continue;
-    }
-    if (!meta.domain.length) {
-      errors.push({ file: relPath, error: "@domain required" });
-      console.warn(" ! @domain missing:", relPath);
-      continue;
+
+    // Mandatory field checks
+    const REQUIRED_FIELDS = [
+      {
+        label: "@name / title",
+        check: (m) => !!m.name,
+      },
+      {
+        label: "@domain",
+        check: (m) => Array.isArray(m.domain) && m.domain.length > 0,
+      },
+      {
+        label: "@author / authors",
+        check: (m) => Array.isArray(m.authors) && m.authors.length > 0,
+      },
+      {
+        label: "@version",
+        check: (m) => (m._format === "userscript-block" ? true : !!m._hasVersion),
+        warnOnly: true,
+        warn: "No version found, 1.0.0 assumed. Add explicit 'version' field.",
+      },
+      {
+        label: "@category",
+        check: (m) => !!m.category,
+        warnOnly: false,
+      },
+    ];
+
+    const fieldErrors = [];
+
+    for (const rule of REQUIRED_FIELDS) {
+      if (!rule.check(meta)) {
+        if (rule.warnOnly) {
+          warnings.push({ file: relPath, warn: rule.warn || `${rule.label} missing` });
+        } else {
+          fieldErrors.push(rule.label);
+        }
+      }
     }
 
-    if ((meta._format === "register-parser" || meta._format === "json-config") && !meta._hasVersion) {
-      warnings.push({ file: relPath, warn: "No version, 1.0.0 assumed. Add 'version' to the export/config format." });
+    if (fieldErrors.length) {
+      const msg = `Missing required fields: ${fieldErrors.join(", ")}`;
+      errors.push({ file: relPath, error: msg });
+      console.warn(` ! ${relPath}\n     → ${msg}`);
+      continue;
     }
 
     const id = meta.id || generateParserKey(meta.domain, meta.urlPatterns, meta.authors);
@@ -356,10 +397,31 @@ function main() {
   }
 
   entries.sort((a, b) => a.title.localeCompare(b.title));
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(entries, null, 2) + "\n", "utf8");
+
+  // 1. Write pretty index.json (for diffs in PRs)
+  const prettyJson = JSON.stringify(entries, null, 2) + "\n";
+  fs.writeFileSync(OUTPUT_FILE, prettyJson, "utf8");
+
+  // 2. Write minified + gzipped index.json.gz (served to extension clients)
+  const minifiedJson = JSON.stringify(entries);
+  const gzipped = zlib.gzipSync(Buffer.from(minifiedJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
+  fs.writeFileSync(GZ_FILE, gzipped);
+
+  // 3. Write hash.json - lets clients detect changes without downloading the full index
+  const contentHash = crypto.createHash("sha256").update(minifiedJson).digest("hex");
+  const hashObj = {
+    sha256: contentHash,
+    size: minifiedJson.length,
+    gzSize: gzipped.length,
+    count: entries.length,
+    generatedAt: new Date().toISOString(),
+  };
+  fs.writeFileSync(HASH_FILE, JSON.stringify(hashObj, null, 2) + "\n", "utf8");
 
   console.log("\n-------------------------------------------");
   console.log("OK   " + entries.length + " script -> index.json");
+  console.log("GZ   " + gzipped.length + " bytes -> index.json.gz  (ratio: " + ((1 - gzipped.length / minifiedJson.length) * 100).toFixed(1) + "% smaller)");
+  console.log("HASH " + contentHash.slice(0, 16) + "... -> hash.json");
   if (warnings.length) {
     console.log("WARN " + warnings.length + " Warning:");
     warnings.forEach((w) => console.log("   !", w.file + ":", w.warn));

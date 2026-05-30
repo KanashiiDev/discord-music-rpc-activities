@@ -6,6 +6,7 @@ registerParser({
   version: "1.0.0",
   description: "Anime Nexus is your ultimate destination for discovering, streaming, and discussing all things anime.",
   mode: "watch",
+  category: "video",
   tags: ["anime"],
   mode: "watch",
   urlPatterns: [/\/watch\/.*/],

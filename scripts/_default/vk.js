@@ -10,10 +10,10 @@ registerParser({
   urlPatterns: [/.*/],
   fn: async function () {
     //@world main
-    const ap = await accessWindow("ap.getCurrentAudio");
+    const ap = await window?.ap?.getCurrentAudio();
     if (!ap) return null;
 
-    const progressResult = await accessWindow("ap.getCurrentProgress");
+    const progressResult = await window?.ap?.getCurrentProgress();
     const progress = progressResult && !progressResult.__error ? progressResult : 0;
 
     const title = ap[3];

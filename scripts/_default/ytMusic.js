@@ -16,17 +16,18 @@ registerParser({
     const artistSelector = document.querySelector("ytmusic-player-bar yt-formatted-string.byline");
     if (artistSelector) {
       const artistNames = [];
-      let foundAnchor = false,
-        spanModeFirstCaptured = false;
-      for (const node of artistSelector.childNodes) {
-        if (node.textContent.includes("•")) break;
+      let foundAnchor = false;
+      let spanModeFirstCaptured = false;
+      for (const node of Array.from(artistSelector.childNodes)) {
+        if (node.textContent?.includes("•")) break;
+
         if (node.nodeType !== Node.ELEMENT_NODE) continue;
         if (node.tagName === "A") {
           foundAnchor = true;
-          const text = node.textContent.trim();
+          const text = node.textContent?.trim();
           if (text) artistNames.push(text);
         } else if (!foundAnchor && node.tagName === "SPAN" && !spanModeFirstCaptured) {
-          const text = node.textContent.trim();
+          const text = node.textContent?.trim();
           if (text) {
             artistNames.push(text.split(/\s+/)[0]);
             spanModeFirstCaptured = true;
@@ -50,6 +51,8 @@ registerParser({
     const image = vid ? `https://i.ytimg.com/vi/${vid}/mqdefault.jpg` : null;
     const source = "YouTube Music";
     const songUrl = songLink || window.location.href;
-    const isPlaying = isWatching || Boolean(document.querySelectorAll(".ytmusic-player-bar #button > yt-icon > span > div > svg > path")[2]?.getAttribute("d").startsWith("M6.5"));
+    const pathNodes = document.querySelectorAll(".ytmusic-player-bar #button > yt-icon > span > div > svg > path");
+    const playPath = pathNodes?.[2]?.getAttribute("d") || null;
+    const isPlaying = isWatching || (typeof playPath === "string" && playPath.startsWith("M6.5"));
   },
 });
