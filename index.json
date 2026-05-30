@@ -86,7 +86,7 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "video",
     "tags": [
       "anime"
     ],
@@ -121,7 +121,7 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "video",
     "tags": [
       "anime"
     ],
@@ -156,7 +156,7 @@
     "homepage": "",
     "mode": "watch",
     "watchAutoDetect": "disable",
-    "category": "",
+    "category": "video",
     "tags": [
       "anime"
     ],
@@ -218,7 +218,9 @@
     "mode": "listen",
     "watchAutoDetect": "disable",
     "category": "platform",
-    "tags": [],
+    "tags": [
+      "music"
+    ],
     "file": "scripts/_default/appleMusic.js"
   },
   {
