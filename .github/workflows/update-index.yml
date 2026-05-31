@@ -41,9 +41,9 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate scripts (dry-run)
-        run: node .github/scripts/generate-index.js --dry-run --verbose
-        # If there is an error, the workflow fails → PR merge is blocked
+      - name: Validate scripts (strict — blocks PR merge on any error)
+        run: node .github/scripts/generate-index.js --dry-run --strict --verbose
+        # --strict: even a single missing field fails the build → PR merge is blocked
 
   # ─────────────────────────────────────────────────────────────
   # JOB 2: Generate & Commit (only works on main/master push)
@@ -74,6 +74,8 @@ jobs:
           node-version: "20"
 
       - name: Generate index.json + index.json.gz + hash.json
+        # No --strict: broken parsers are skipped, valid ones are always published.
+        # Build only fails if ALL parsers are broken (entries = 0).
         run: |
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             node .github/scripts/generate-index.js --dry-run --verbose
@@ -84,8 +86,7 @@ jobs:
       - name: Check if output files changed
         id: diff
         run: |
-          # Track all three generated files
-          CHANGED_FILES=$(git diff --name-only index.json index.json.gz hash.json 2>/dev/null || true)
+          CHANGED_FILES=$(git diff --name-only index.json.gz hash.json 2>/dev/null || true)
           if [ -z "$CHANGED_FILES" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "ℹ️  No output files changed, skipping commit."
@@ -93,8 +94,7 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "✅ Changed files:"
             echo "$CHANGED_FILES"
-            git diff --stat index.json hash.json 2>/dev/null || true
-            # Show gz size for info (binary, no text diff)
+            git diff --stat hash.json 2>/dev/null || true
             if git diff --quiet index.json.gz 2>/dev/null; then
               echo "   index.json.gz: unchanged"
             else
@@ -107,7 +107,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json index.json.gz hash.json
+          git add index.json.gz hash.json
           git commit -m "chore: auto-update index.json [skip ci]"
           git push
 
@@ -117,7 +117,6 @@ jobs:
         with:
           name: index-files
           path: |
-            index.json
             index.json.gz
             hash.json
           retention-days: 7

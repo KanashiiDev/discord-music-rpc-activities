@@ -8,7 +8,6 @@ const zlib = require("zlib");
 const crypto = require("crypto");
 
 const SCRIPTS_DIR = path.resolve(__dirname, "../../scripts");
-const OUTPUT_FILE = path.resolve(__dirname, "../../index.json");
 const GZ_FILE = path.resolve(__dirname, "../../index.json.gz");
 const HASH_FILE = path.resolve(__dirname, "../../hash.json");
 const REPO_ROOT = path.resolve(__dirname, "../../");
@@ -56,7 +55,12 @@ function parseUserScriptBlock(source) {
     homepage: single("homepage", ""),
     mode: single("mode", "listen"),
     watchAutoDetect: single("watchautodetect", "disable"),
-    category: single("category", ""),
+    category: single("category")
+      ? single("category")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [],
     tags: multi("tag"),
     iframeSelectors,
   };
@@ -151,7 +155,7 @@ function parseRegisterParserFormat(source) {
     homepage: capturedConfig.homepage || "",
     mode: capturedConfig.mode || "listen",
     watchAutoDetect: capturedConfig.watchAutoDetect || "disable",
-    category: capturedConfig.category || "",
+    category: cleanArray(capturedConfig.category),
     tags: cleanArray(capturedConfig.tags),
     iframeSelectors,
   };
@@ -167,8 +171,8 @@ function toRelativePath(absPath) {
 
 function loadExistingIndex() {
   try {
-    if (fs.existsSync(OUTPUT_FILE)) {
-      const data = JSON.parse(fs.readFileSync(OUTPUT_FILE, "utf8"));
+    if (fs.existsSync(GZ_FILE)) {
+      const data = JSON.parse(zlib.gunzipSync(fs.readFileSync(GZ_FILE)).toString("utf8"));
       if (Array.isArray(data)) return Object.fromEntries(data.map((e) => [e.id, e]));
     }
   } catch {}
@@ -226,7 +230,7 @@ function generateParserKey(domain, urlPatterns, authors = []) {
 
   const author = Array.isArray(authors) ? authors[0] : authors;
 
-  const safeAuthor = String(author || "anonymous")
+  const safeAuthor = String(author)
     .toLowerCase()
     .replace(/[^a-z0-9_\-]/g, "");
 
@@ -234,10 +238,17 @@ function generateParserKey(domain, urlPatterns, authors = []) {
     .toLowerCase()
     .replace(/[^a-z0-9_\-]/g, "");
 
-  return `${safeAuthor}_${safeDomain}_${hash}`;
+  return safeAuthor ? safeAuthor + "_" + safeDomain + "_" + hash : safeDomain + "_" + hash;
 }
 
 function main() {
+  const args = process.argv.slice(2);
+  const isDryRun = args.includes("--dry-run");
+  const isVerbose = args.includes("--verbose");
+  // --strict  → PR validation mode: any error blocks the whole build
+  // (default) → Generate mode: skip broken parsers, publish the rest
+  const isStrict = args.includes("--strict");
+
   const existingMap = loadExistingIndex();
   const scriptFiles = collectScriptFiles(SCRIPTS_DIR);
   const entries = [];
@@ -247,7 +258,6 @@ function main() {
   if (!scriptFiles.length) {
     console.log("scripts/ empty.");
     const emptyJson = JSON.stringify([]);
-    fs.writeFileSync(OUTPUT_FILE, "[]" + "\n", "utf8");
     const emptyGz = zlib.gzipSync(Buffer.from(emptyJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
     fs.writeFileSync(GZ_FILE, emptyGz);
     const emptyHash = { sha256: crypto.createHash("sha256").update(emptyJson).digest("hex"), size: 2, gzSize: emptyGz.length, count: 0, generatedAt: new Date().toISOString() };
@@ -292,7 +302,7 @@ function main() {
           homepage: data.homepage || "",
           mode: data.mode || "listen",
           watchAutoDetect: data.watchAutoDetect || "disable",
-          category: data.category || "",
+          category: Array.isArray(data.category) ? data.category : data.category ? [data.category] : [],
           tags: data.tags || [],
           iframeSelectors,
         };
@@ -319,6 +329,8 @@ function main() {
     }
 
     // Mandatory field checks
+    // strictOnly: true  → error only in --strict mode (PR), warn-and-skip in generate mode
+    // warnOnly: true    → never an error, always just a warning in both modes
     const REQUIRED_FIELDS = [
       {
         label: "@name / title",
@@ -341,7 +353,10 @@ function main() {
       {
         label: "@category",
         check: (m) => !!m.category,
-        warnOnly: false,
+        // In --strict mode this is a hard error (blocks PR merge).
+        // In generate mode it's a warning — parser is still published.
+        strictOnly: true,
+        warn: "@category missing — parser will be published without a category.",
       },
     ];
 
@@ -351,6 +366,12 @@ function main() {
       if (!rule.check(meta)) {
         if (rule.warnOnly) {
           warnings.push({ file: relPath, warn: rule.warn || `${rule.label} missing` });
+        } else if (rule.strictOnly) {
+          if (isStrict) {
+            fieldErrors.push(rule.label);
+          } else {
+            warnings.push({ file: relPath, warn: rule.warn || `${rule.label} missing` });
+          }
         } else {
           fieldErrors.push(rule.label);
         }
@@ -398,16 +419,12 @@ function main() {
 
   entries.sort((a, b) => a.title.localeCompare(b.title));
 
-  // 1. Write pretty index.json (for diffs in PRs)
-  const prettyJson = JSON.stringify(entries, null, 2) + "\n";
-  fs.writeFileSync(OUTPUT_FILE, prettyJson, "utf8");
-
-  // 2. Write minified + gzipped index.json.gz (served to extension clients)
+  // 1. Write minified + gzipped index.json.gz (the only index file)
   const minifiedJson = JSON.stringify(entries);
   const gzipped = zlib.gzipSync(Buffer.from(minifiedJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
   fs.writeFileSync(GZ_FILE, gzipped);
 
-  // 3. Write hash.json - lets clients detect changes without downloading the full index
+  // 2. Write hash.json
   const contentHash = crypto.createHash("sha256").update(minifiedJson).digest("hex");
   const hashObj = {
     sha256: contentHash,
@@ -419,18 +436,41 @@ function main() {
   fs.writeFileSync(HASH_FILE, JSON.stringify(hashObj, null, 2) + "\n", "utf8");
 
   console.log("\n-------------------------------------------");
-  console.log("OK   " + entries.length + " script -> index.json");
+
+  if (isStrict) {
+    console.log(`MODE strict  (--strict)`);
+  } else {
+    console.log(`MODE generate (lenient)`);
+  }
+
+  console.log("OK   " + entries.length + " script -> index.json.gz");
   console.log("GZ   " + gzipped.length + " bytes -> index.json.gz  (ratio: " + ((1 - gzipped.length / minifiedJson.length) * 100).toFixed(1) + "% smaller)");
   console.log("HASH " + contentHash.slice(0, 16) + "... -> hash.json");
+
   if (warnings.length) {
     console.log("WARN " + warnings.length + " Warning:");
     warnings.forEach((w) => console.log("   !", w.file + ":", w.warn));
   }
+
   if (errors.length) {
-    console.log("ERR  " + errors.length + " Skipped:");
+    console.log((isStrict ? "ERR  " : "SKIP ") + errors.length + (isStrict ? " Error — build blocked:" : " Parser(s) skipped:"));
     errors.forEach((e) => console.log("   *", e.file + ":", e.error));
-    process.exit(1);
+
+    if (isStrict) {
+      // PR validation: any error is fatal
+      console.log("-------------------------------------------");
+      process.exit(1);
+    } else {
+      // Generate mode: only fatal if ALL parsers failed
+      if (entries.length === 0) {
+        console.log("ERR  No valid parsers found — index.json.gz not updated.");
+        console.log("-------------------------------------------");
+        process.exit(1);
+      }
+      console.log(`     (${entries.length} valid parser(s) published normally)`);
+    }
   }
+
   console.log("-------------------------------------------");
 }
 
