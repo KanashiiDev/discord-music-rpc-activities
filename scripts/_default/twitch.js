@@ -8,7 +8,7 @@ registerParser({
   category: "platform",
   tags: ["streaming"],
   mode: "watch",
-  urlPatterns: [/\/\w+/],
+  urlPatterns: [/\/.*/],
   fn: function () {
     const title = getText("#live-channel-stream-information [data-a-target='stream-title']");
     const artist = getText("#live-channel-stream-information h1.tw-title");

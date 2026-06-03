@@ -236,7 +236,7 @@ function generateParserKey(domain, urlPatterns, authors = []) {
 
   const safeDomain = String(rawDomain)
     .toLowerCase()
-    .replace(/[^a-z0-9_\-]/g, "");
+    .replace(/[^a-z0-9_.\-]/g, "");
 
   return safeAuthor ? safeAuthor + "_" + safeDomain + "_" + hash : safeDomain + "_" + hash;
 }

@@ -8,9 +8,10 @@ registerParser({
   category: "video",
   tags: ["anime"],
   mode: "watch",
-  urlPatterns: [/\/(play|video)\/.*/],
+  urlPatterns: [/.*/],
   iframeSelectors: { fields: { $video: { type: "video" } } },
   fn: async function () {
+    if (!/\/(play|video)\/.*/.test(location.pathname)) return;
     const iframe = await getIframeData();
     const title = getText(".ep-item--active") || getText(".bstar-meta__title");
     const artist = getText("h1.bstar-meta__title > a") || getText(".bstar-meta-up-follow__nickName");

@@ -12,7 +12,7 @@ registerParser({
     const timeElem = getText(".player-time");
     const title = getText(".track-title");
     const artist = getText(".track-artist");
-    const image = getImage(".cover img");
+    const image = getImage(".cover");
     const source = "Nightwave Plaza";
     const songUrl = "https://plaza.one/";
     const timePassed = timeElem;

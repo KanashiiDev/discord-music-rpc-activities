@@ -7,7 +7,7 @@ registerParser({
   description: "Curated directory for hundreds of music radio streams.",
   category: "aggregator",
   tags: [],
-  urlPatterns: [/^\//],
+  urlPatterns: [/.*/],
   fn: function () {
     const meta = getText("#metadataDisplay").split(" - ");
     let artist = meta[0] || "";
@@ -23,7 +23,7 @@ registerParser({
 
     const badArtist = ["Visit radio's homepage for playing info", "Stream not active", "Unknown", "Loading..."];
     if (badArtist.includes(artist)) artist = "-1";
-    if (/\.webp(\?.*)?$/i.test(image)) image = "https://favicons.seadfeng.workers.dev/basic.pp.ua.ico";
+    if (/\.webp(\?.*)?$/i.test(image)) image = "https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://basic.pp.ua&size=180";
 
     const source = stationName;
     const songUrl = stationLink;

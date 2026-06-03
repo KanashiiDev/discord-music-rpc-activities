@@ -3,12 +3,24 @@ registerParser({
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",
   title: "Ashiya Radio",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Japanese online radio station featuring jazz and international music.",
-  urlPatterns: [/.*/],
+  lastUpdated: "1780444258963",
+  mode: "listen",
+  watchAutoDetect: "disable",
+  homepage: "",
   category: "radio",
   tags: ["jazz", "japan"],
-  iframeSelectors: { match: ["embed.radio.co"], fields: { playing: { type: "exists", selector: ".radioco-player #playButton.play-button.icon.icon-playerstop" } } },
+  urlPatterns: [/.*/],
+  iframeSelectors: {
+    fields: {
+      playing: {
+        selector: ".radioco-player #playButton.play-button.icon.icon-playerstop",
+        type: "exists",
+      },
+    },
+    match: ["embed.radio.co"],
+  },
   fn: async function () {
     const iframe = await getIframeData();
     let fetched;
@@ -18,8 +30,8 @@ registerParser({
       fetched = { title: data.current_track.title, artwork_url: data.current_track.artwork_url };
     } catch (_) {}
 
-    const title = fetched?.title;
-    const artist = fetched?.title;
+    const title = fetched?.title.split("-")[0] || fetched?.title;
+    const artist = fetched?.title.split("-")[1] || fetched?.title;
     const image = fetched?.artwork_url;
     const source = "Ashiya Radio";
     const songUrl = "https://www.ashiya.radio/";

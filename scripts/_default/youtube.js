@@ -13,8 +13,10 @@ registerParser({
     if (location.pathname.includes("shorts")) return;
 
     const url = window.location.href;
-    const title = getText("#title > h1 > yt-formatted-string");
-    const artist = getText("#upload-info #text > a");
+    const jsonEl = document.querySelector(".playerMicroformatRendererHost")?.textContent;
+    const jsonData = jsonEl ? JSON.parse(jsonEl) : null;
+    const title = getText("#title > h1 > yt-formatted-string") || jsonData?.name;
+    const artist = getText("#upload-info #text > a") || jsonData?.author;
     const video = document.querySelector("video");
     const isLive = Boolean(document.querySelector("button.ytp-live-badge")?.offsetParent);
     const source = "YouTube";
