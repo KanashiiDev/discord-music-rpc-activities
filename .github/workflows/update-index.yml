@@ -1,20 +1,18 @@
 name: Update index.json
 
 on:
-  # When there is a change in the scripts/ folder
+  # When there is a change in the activities/ folder
   push:
-    branches: [main, master]
+    branches: [main]
     paths:
-      - "scripts/**/*.js"
-      - "scripts/**/*.json"
+      - "activities/**/*.js"
       - ".github/scripts/generate-index.js"
 
   # Validate in PRs (check before merging)
   pull_request:
-    branches: [main, master]
+    branches: [main]
     paths:
-      - "scripts/**/*.js"
-      - "scripts/**/*.json"
+      - "activities/**/*.js"
 
   # So that it can also be triggered manually
   workflow_dispatch:
@@ -29,7 +27,7 @@ jobs:
   # JOB 1: Validate (works in PRs, also works on push)
   # ─────────────────────────────────────────────────────────────
   validate:
-    name: Validate Scripts
+    name: Validate Activities
     runs-on: ubuntu-latest
 
     steps:
@@ -41,12 +39,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate scripts (strict — blocks PR merge on any error)
+      - name: Validate activities (strict — blocks PR merge on any error)
         run: node .github/scripts/generate-index.js --dry-run --strict --verbose
         # --strict: even a single missing field fails the build → PR merge is blocked
 
   # ─────────────────────────────────────────────────────────────
-  # JOB 2: Generate & Commit (only works on main/master push)
+  # JOB 2: Generate & Commit (only works on main push)
   # ─────────────────────────────────────────────────────────────
   generate:
     name: Generate index.json
@@ -57,7 +55,7 @@ jobs:
     needs: validate
 
     permissions:
-      contents: write # to be able to commit index.json
+      contents: write # to be able to commit index.json.gz
 
     steps:
       - name: Checkout
@@ -73,7 +71,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Generate index.json + index.json.gz + hash.json
+      - name: Generate index.json.gz + hash.json
         # No --strict: broken parsers are skipped, valid ones are always published.
         # Build only fails if ALL parsers are broken (entries = 0).
         run: |

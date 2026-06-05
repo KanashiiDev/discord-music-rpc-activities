@@ -7,64 +7,10 @@ const vm = require("vm");
 const zlib = require("zlib");
 const crypto = require("crypto");
 
-const SCRIPTS_DIR = path.resolve(__dirname, "../../scripts");
+const ACTIVITIES_DIR = path.resolve(__dirname, "../../activities");
 const GZ_FILE = path.resolve(__dirname, "../../index.json.gz");
 const HASH_FILE = path.resolve(__dirname, "../../hash.json");
 const REPO_ROOT = path.resolve(__dirname, "../../");
-
-function parseUserScriptBlock(source) {
-  const blockMatch = source.match(/\/\/\s*==UserScript==([\s\S]*?)\/\/\s*==\/UserScript==/);
-  if (!blockMatch) return null;
-  const block = blockMatch[1];
-  const lines = block
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-  const raw = {};
-  for (const line of lines) {
-    const m = line.match(/^\/\/\s*@(\S+)\s+(.*)/);
-    if (!m) continue;
-    const key = m[1].toLowerCase();
-    const val = m[2].trim();
-    if (!raw[key]) raw[key] = [];
-    raw[key].push(val);
-  }
-  const single = (key, fallback = null) => raw[key]?.[0] ?? fallback;
-  const multi = (key) => raw[key] || [];
-
-  let iframeSelectors = null;
-  const rawIframe = single("iframeselectors");
-  if (rawIframe) {
-    try {
-      iframeSelectors = JSON.parse(rawIframe);
-    } catch (_) {
-      console.warn("  ! Could not parse @iframeSelectors JSON in UserScript block");
-    }
-  }
-
-  return {
-    _format: "userscript-block",
-    id: single("id"),
-    name: single("name"),
-    version: single("version", "1.0.0"),
-    description: single("description", ""),
-    domain: multi("domain"),
-    urlPatterns: multi("urlpattern"),
-    authors: multi("author"),
-    authorsLinks: multi("authorlink"),
-    homepage: single("homepage", ""),
-    mode: single("mode", "listen"),
-    watchAutoDetect: single("watchautodetect", "disable"),
-    category: single("category")
-      ? single("category")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean)
-      : [],
-    tags: multi("tag"),
-    iframeSelectors,
-  };
-}
 
 function parseRegisterParserFormat(source) {
   if (!source.includes("registerParser")) return null;
@@ -134,10 +80,10 @@ function parseRegisterParserFormat(source) {
       if (rawIframe.fields && typeof rawIframe.fields === "object") {
         iframeSelectors = rawIframe;
       } else {
-        console.warn(`  ! iframeSelectors missing required "fields" key — skipped`);
+        console.warn(`  ! iframeSelectors missing required "fields" key - skipped`);
       }
     } else {
-      console.warn(`  ! iframeSelectors must be a plain object — skipped`);
+      console.warn(`  ! iframeSelectors must be a plain object - skipped`);
     }
   }
 
@@ -162,7 +108,7 @@ function parseRegisterParserFormat(source) {
 }
 
 function parseMeta(source) {
-  return parseUserScriptBlock(source) || parseRegisterParserFormat(source);
+  return parseRegisterParserFormat(source);
 }
 
 function toRelativePath(absPath) {
@@ -182,7 +128,7 @@ function loadExistingIndex() {
 function collectScriptFiles(dir) {
   const results = [];
   if (!fs.existsSync(dir)) {
-    console.warn("scripts/ not found:", dir);
+    console.warn("activities/ not found:", dir);
     return results;
   }
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -250,13 +196,13 @@ function main() {
   const isStrict = args.includes("--strict");
 
   const existingMap = loadExistingIndex();
-  const scriptFiles = collectScriptFiles(SCRIPTS_DIR);
+  const scriptFiles = collectScriptFiles(ACTIVITIES_DIR);
   const entries = [];
   const errors = [];
   const warnings = [];
 
   if (!scriptFiles.length) {
-    console.log("scripts/ empty.");
+    console.log("activities/ empty.");
     const emptyJson = JSON.stringify([]);
     const emptyGz = zlib.gzipSync(Buffer.from(emptyJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
     fs.writeFileSync(GZ_FILE, emptyGz);
@@ -282,10 +228,10 @@ function main() {
             if (data.iframeSelectors.fields && typeof data.iframeSelectors.fields === "object") {
               iframeSelectors = data.iframeSelectors;
             } else {
-              warnings.push({ file: relPath, warn: 'iframeSelectors missing required "fields" key — skipped' });
+              warnings.push({ file: relPath, warn: 'iframeSelectors missing required "fields" key - skipped' });
             }
           } else {
-            warnings.push({ file: relPath, warn: "iframeSelectors must be a plain object — skipped" });
+            warnings.push({ file: relPath, warn: "iframeSelectors must be a plain object - skipped" });
           }
         }
 
@@ -353,10 +299,8 @@ function main() {
       {
         label: "@category",
         check: (m) => !!m.category,
-        // In --strict mode this is a hard error (blocks PR merge).
-        // In generate mode it's a warning — parser is still published.
         strictOnly: true,
-        warn: "@category missing — parser will be published without a category.",
+        warn: "@category missing - parser will be published without a category.",
       },
     ];
 
@@ -392,7 +336,7 @@ function main() {
     else if (existing.version !== meta.version) console.log(` ^ Updated:${fmt} ${relPath}  ${existing.version} -> v${meta.version}`);
     else console.log(` = It hasn't changed:  ${fmt} ${relPath}  v${meta.version}`);
 
-    // Build entry — iframeSelectors only included when present (keeps index.json clean)
+    // Build entry - iframeSelectors only included when present
     const entry = {
       id,
       title: meta.name,
@@ -419,7 +363,7 @@ function main() {
 
   entries.sort((a, b) => a.title.localeCompare(b.title));
 
-  // 1. Write minified + gzipped index.json.gz (the only index file)
+  // 1. Write minified + gzipped index.json.gz
   const minifiedJson = JSON.stringify(entries);
   const gzipped = zlib.gzipSync(Buffer.from(minifiedJson, "utf8"), { level: zlib.constants.Z_BEST_COMPRESSION });
   fs.writeFileSync(GZ_FILE, gzipped);
@@ -453,7 +397,7 @@ function main() {
   }
 
   if (errors.length) {
-    console.log((isStrict ? "ERR  " : "SKIP ") + errors.length + (isStrict ? " Error — build blocked:" : " Parser(s) skipped:"));
+    console.log((isStrict ? "ERR  " : "SKIP ") + errors.length + (isStrict ? " Error - build blocked:" : " Parser(s) skipped:"));
     errors.forEach((e) => console.log("   *", e.file + ":", e.error));
 
     if (isStrict) {
@@ -463,7 +407,7 @@ function main() {
     } else {
       // Generate mode: only fatal if ALL parsers failed
       if (entries.length === 0) {
-        console.log("ERR  No valid parsers found — index.json.gz not updated.");
+        console.log("ERR  No valid parsers found - index.json.gz not updated.");
         console.log("-------------------------------------------");
         process.exit(1);
       }
