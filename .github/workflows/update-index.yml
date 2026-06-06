@@ -106,7 +106,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add index.json.gz hash.json
-          git commit -m "chore: auto-update index.json [skip ci]"
+          git commit -m "chore: rebuild index and hash"
           git push
 
       - name: Upload generated files as artifact
