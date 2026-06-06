@@ -148,7 +148,10 @@ function generateParserKey(domain, urlPatterns, authors = []) {
     rawDomain = domain.split(",")[0] || "";
   }
 
-  if (!rawDomain) rawDomain = "unknown";
+  if (!rawDomain) {
+    console.log("[generateParserKey] empty domain", { domain, urlPatterns });
+    rawDomain = "unknown";
+  }
 
   let patternsArray = [];
 
@@ -158,15 +161,20 @@ function generateParserKey(domain, urlPatterns, authors = []) {
     patternsArray = urlPatterns.split(",");
   }
 
-  if (!patternsArray.length) {
-    patternsArray = [".*"];
-  }
+  if (!patternsArray.length) patternsArray = [".*"];
 
   const patternStrings = patternsArray
-    .map((p) => {
+    .map(function (p) {
       if (!p) return ".*";
-      if (p instanceof RegExp) return p.source;
-      return p.toString().trim() || ".*";
+
+      let strPattern = "";
+      if (p instanceof RegExp) {
+        strPattern = p.source;
+      } else {
+        strPattern = p.toString().trim() || ".*";
+      }
+
+      return strPattern.replace(/^\/|\/$/g, "") || ".*";
     })
     .sort();
 
@@ -176,9 +184,11 @@ function generateParserKey(domain, urlPatterns, authors = []) {
 
   const author = Array.isArray(authors) ? authors[0] : authors;
 
-  const safeAuthor = String(author)
-    .toLowerCase()
-    .replace(/[^a-z0-9_\-]/g, "");
+  const safeAuthor = author
+    ? String(author)
+        .toLowerCase()
+        .replace(/[^a-z0-9_\-]/g, "")
+    : "";
 
   const safeDomain = String(rawDomain)
     .toLowerCase()
