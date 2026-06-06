@@ -1,38 +1,40 @@
 # <img align="center" src="https://raw.githubusercontent.com/KanashiiDev/discord-music-rpc/refs/heads/main/app/assets/icon/icon.png" alt="Extension Icon" width="48" height="48"> Discord Music RPC - Activities
 
-This repository contains activities used by Discord Music RPC.
+This repository contains community-created activities for Discord Music RPC.
 
-If a music website is not supported yet, you can create an activity and submit it to this repository so everyone can use it.
-
----
-
-## Step 1: Create a Userscript
-
-**Follow the official guide:** [Userscript Guide](https://github.com/KanashiiDev/discord-music-rpc/wiki/Adding-a-New-Music-Site#option-2---userscript-method)
+If a music website is not supported yet, you can create a new activity using the Userscript Manager and submit it to this repository so everyone can use it.
 
 ---
 
-## Step 2: Test Your Parser
+## Step 1: Create an Activity
+
+Activities are userscript files that are created and edited through the Discord Music RPC Userscript Manager.
+
+**Follow the official guide:** https://github.com/KanashiiDev/discord-music-rpc/wiki/Adding-a-New-Music-Site#option-2---userscript-method
+
+---
+
+## Step 2: Test Your Activity
 
 Before submitting your activity, make sure it works correctly on the target website.
 
 **Verify that:**
 
 - Songs are detected correctly
-- Artist, title and cover are detected correctly
+- Artist, title, and cover art are detected correctly
 - Play/Pause status updates correctly
 
 ---
 
-## Step 3: Export Your Script
+## Step 3: Export Your Activity
 
-**Once your activity is working:**
+Once your activity is working:
 
 1. Open Discord Music RPC - Userscript Manager
-2. Export the Userscript file
+2. Export the activity
 3. Save the exported `.js` file
 
-Do not copy only parts of the code. Submit the complete exported script.
+Do not copy only parts of the code. Submit the complete exported activity file.
 
 ---
 
@@ -55,7 +57,7 @@ Deezer         → activities/D/
 
 ## Required Metadata
 
-**Your script must contain:**
+**Your activity must include the following metadata:**
 
 - Name
 - Domain
@@ -64,13 +66,13 @@ Deezer         → activities/D/
 - Category
 - Description
 
-You can fill these in the userscript manager.
+These fields can be configured in the Userscript Manager.
 
 ---
 
 ## Versioning
 
-Every time you update a script, increase its version number.
+Every time you update an activity, increase its version number.
 
 **Example:**
 
@@ -84,21 +86,21 @@ Every time you update a script, increase its version number.
 1.0.1
 ```
 
-#### Why is this important?
+### Why is this important?
 
-Discord Music RPC uses script versions to determine whether users should receive an update. If the version number is not increased, your changes may not be delivered to existing users.
+Discord Music RPC uses activity versions to determine whether users should receive updates. If the version number is not increased, your changes may not be delivered to existing users.
 
 ---
 
 ## Before Opening a Pull Request
 
-**Make sure that:**
+Make sure that:
 
-- Your parser works correctly
+- Your activity works correctly
 - The metadata is present and accurate
-- The version number was increased if you modified an existing script
+- The version number was increased if you modified an existing activity
 - The file is located in the correct `activities` folder
-- The script is the exported version from your Userscript Manager
+- The file is the exported version from the Userscript Manager
 
 ---
 
