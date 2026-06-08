@@ -4,6 +4,9 @@ This repository contains community-created activities for [Discord Music RPC](ht
 
 If a music website is not supported yet, you can create a new activity using the Userscript Manager and submit it to this repository so everyone can use it.
 
+> [!IMPORTANT]
+> Only activities exported via a **Userscript Manager** from Discord Music RPC version **2.0.0** and later will be accepted.
+
 ## How to Create and Submit an Activity
 
 ### 1. Create an Activity
