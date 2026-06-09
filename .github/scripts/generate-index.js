@@ -88,9 +88,8 @@ function parseRegisterParserFormat(source) {
   }
 
   return {
-    _format: "register-parser",
     _hasVersion: !!capturedConfig.version,
-    id: null,
+    id: capturedConfig.id || null,
     name: capturedConfig.title || null,
     version: capturedConfig.version || "1.0.0",
     description: capturedConfig.description || "",
@@ -226,56 +225,13 @@ function main() {
     let meta = null;
     let fmt = "";
 
-    if (file.endsWith(".json")) {
-      try {
-        const source = fs.readFileSync(file, "utf8");
-        const content = JSON.parse(source);
-        const data = Array.isArray(content) ? content[0] : content;
-
-        let iframeSelectors = null;
-        if (data.iframeSelectors !== undefined && data.iframeSelectors !== null) {
-          if (typeof data.iframeSelectors === "object" && !Array.isArray(data.iframeSelectors)) {
-            if (data.iframeSelectors.fields && typeof data.iframeSelectors.fields === "object") {
-              iframeSelectors = data.iframeSelectors;
-            } else {
-              warnings.push({ file: relPath, warn: 'iframeSelectors missing required "fields" key - skipped' });
-            }
-          } else {
-            warnings.push({ file: relPath, warn: "iframeSelectors must be a plain object - skipped" });
-          }
-        }
-
-        meta = {
-          _format: "json-config",
-          id: data.id || null,
-          name: data.title || null,
-          version: data.version || "1.0.0",
-          description: data.description || "",
-          domain: Array.isArray(data.domain) ? data.domain : data.domain ? [data.domain] : [],
-          urlPatterns: data.urlPatterns && data.urlPatterns.length ? data.urlPatterns : ["/.*/"],
-          authors: data.authors || [],
-          authorsLinks: data.authorsLinks || [],
-          homepage: data.homepage || "",
-          mode: data.mode || "listen",
-          watchAutoDetect: data.watchAutoDetect || "disable",
-          category: Array.isArray(data.category) ? data.category : data.category ? [data.category] : [],
-          tags: data.tags || [],
-          iframeSelectors,
-        };
-        fmt = "[JSON Config] ";
-      } catch (err) {
-        errors.push({ file: relPath, error: "Could not read or parse JSON: " + err.message });
-        continue;
-      }
-    } else {
-      try {
-        const source = fs.readFileSync(file, "utf8");
-        meta = parseMeta(source);
-        fmt = meta?._format === "register-parser" ? "[registerParser]" : "[UserScript]  ";
-      } catch (err) {
-        errors.push({ file: relPath, error: "Could not be read: " + err.message });
-        continue;
-      }
+    try {
+      const source = fs.readFileSync(file, "utf8");
+      meta = parseMeta(source);
+      fmt = "[registerParser]";
+    } catch (err) {
+      errors.push({ file: relPath, error: "Could not be read: " + err.message });
+      continue;
     }
 
     if (!meta) {
@@ -302,7 +258,7 @@ function main() {
       },
       {
         label: "@version",
-        check: (m) => (m._format === "userscript-block" ? true : !!m._hasVersion),
+        check: (m) => !!m._hasVersion,
         warnOnly: true,
         warn: "No version found, 1.0.0 assumed. Add explicit 'version' field.",
       },
@@ -339,7 +295,16 @@ function main() {
       continue;
     }
 
-    const id = meta.id || generateParserKey(meta.domain, meta.urlPatterns, meta.authors);
+    let id = meta.id;
+    if (!id) {
+      id = generateParserKey(meta.domain, meta.urlPatterns, meta.authors);
+      if (!isDryRun && file.endsWith(".js")) {
+        const source = fs.readFileSync(file, "utf8");
+        const patched = source.replace(/registerParser\s*\(\s*\{/, `registerParser({\n  id: "${id}",`);
+        fs.writeFileSync(file, patched, "utf8");
+        console.log(` ~ ID injected: ${relPath} → "${id}"`);
+      }
+    }
     const existing = existingMap[id];
 
     if (!existing) console.log(` + New:       ${fmt} ${relPath}  v${meta.version}`);
