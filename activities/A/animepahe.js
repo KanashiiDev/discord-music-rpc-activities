@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_animepahe.pw_XC9wbGF5XC",
   domain: ["animepahe.pw", "animepahe.com", "animepahe.org"],
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

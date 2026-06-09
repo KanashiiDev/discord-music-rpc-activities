@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_ashiya.radio_Lio",
   domain: "ashiya.radio",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

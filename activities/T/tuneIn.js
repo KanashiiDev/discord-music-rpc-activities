@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_tunein.com_Lio",
   domain: "tunein.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

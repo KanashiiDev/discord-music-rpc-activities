@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_listen.moe_Lio",
   domain: "listen.moe",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

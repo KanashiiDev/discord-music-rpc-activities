@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_anison.fm_Lio",
   domain: ["anison.fm", "en.anison.fm", "cn.anison.fm"],
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

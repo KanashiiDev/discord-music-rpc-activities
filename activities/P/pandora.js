@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_pandora.com_Lio",
   domain: "pandora.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

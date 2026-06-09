@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_deezer.com_Lio",
   domain: "deezer.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_accuradio.com_Lio",
   domain: "accuradio.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

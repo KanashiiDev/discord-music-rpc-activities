@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_plaza.one_Lio",
   domain: "plaza.one",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

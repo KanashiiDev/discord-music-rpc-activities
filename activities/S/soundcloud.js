@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_soundcloud.com_Lio",
   domain: "soundcloud.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

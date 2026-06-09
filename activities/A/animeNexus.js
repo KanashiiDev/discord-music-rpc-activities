@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_anime.nexus_XC93YXRjaF",
   domain: "anime.nexus",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

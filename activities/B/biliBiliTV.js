@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_bilibili.tv_Lio",
   domain: "bilibili.tv",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_j1fm.tokyo_cGxheWVyLi",
   domain: "j1fm.tokyo",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

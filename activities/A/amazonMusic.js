@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_music.amazon.com_Lio",
   domain: "music.amazon.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

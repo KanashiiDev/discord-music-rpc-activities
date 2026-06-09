@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_gensokyoradio.net_XC9wbGF5aW",
   domain: "gensokyoradio.net",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

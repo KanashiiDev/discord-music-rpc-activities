@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_kick.com_XC8uKg",
   domain: "kick.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

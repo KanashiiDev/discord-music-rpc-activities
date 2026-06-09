@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_music.youtube.com_Lio",
   domain: "music.youtube.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

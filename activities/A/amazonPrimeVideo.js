@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_primevideo.com_Lio",
   domain: "primevideo.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

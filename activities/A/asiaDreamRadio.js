@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_asiadreamradio.torontocast.stream_c3RhdGlvbn",
   domain: "asiadreamradio.torontocast.stream",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

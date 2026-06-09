@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_radio.wapchan.org_cHVibGljXC",
   domain: "radio.wapchan.org",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

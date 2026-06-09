@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_basic.pp.ua_Lio",
   domain: "basic.pp.ua",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

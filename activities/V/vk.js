@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_vk.com_Lio",
   domain: "vk.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

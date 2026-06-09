@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_danceradio.show_Lio",
   domain: "danceradio.show",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

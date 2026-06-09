@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_miruro.to_XC93YXRjaF",
   domain: ["miruro.to", "miruro.tv", "miruro.online", "miruro.bz"],
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

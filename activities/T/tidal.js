@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_tidal.com_Lio",
   domain: "tidal.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_music.apple.com_Lio",
   domain: "music.apple.com",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

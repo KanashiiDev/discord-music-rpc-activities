@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_animetsu.cc_XC93YXRjaF",
   domain: ["animetsu.cc", "animetsu.bz", "animetsu.live"],
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

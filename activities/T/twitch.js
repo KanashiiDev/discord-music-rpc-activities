@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_twitch.tv_XC8uKg",
   domain: "twitch.tv",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",

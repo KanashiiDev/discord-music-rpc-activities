@@ -1,4 +1,5 @@
 registerParser({
+  id: "kanashiidev_jetsetradio.live_Lio",
   domain: "jetsetradio.live",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",
