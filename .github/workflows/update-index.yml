@@ -84,7 +84,7 @@ jobs:
       - name: Check if output files changed
         id: diff
         run: |
-          CHANGED_FILES=$(git diff --name-only index.json.gz hash.json 2>/dev/null || true)
+          CHANGED_FILES=$(git diff --name-only index.json.gz hash.json activities/ 2>/dev/null || true)
           if [ -z "$CHANGED_FILES" ]; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "ℹ️  No output files changed, skipping commit."
@@ -105,8 +105,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json.gz hash.json
-          git commit -m "chore: rebuild index and hash"
+          git add index.json.gz hash.json activities/
+          git commit -m "chore: rebuild index and hash [skip ci]"
           git push
 
       - name: Upload generated files as artifact
