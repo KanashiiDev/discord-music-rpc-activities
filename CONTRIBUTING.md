@@ -1,9 +1,9 @@
-# <img align="center" src="https://raw.githubusercontent.com/KanashiiDev/discord-music-rpc/refs/heads/main/app/assets/icon/icon.png" alt="Extension Icon" width="48" height="48"> Discord Music RPC - Contributing
+# <img align="center" src="https://raw.githubusercontent.com/KanashiiDev/discord-music-rpc/refs/heads/main/app/assets/icon/icon.png" alt="Extension Icon" width="48" height="48"> Web Presence - Contributing
 
 This guide explains how to create, test, and submit an activity for a music or video website.
 
 > [!IMPORTANT]
-> Only activities exported via a **Userscript Manager** from Discord Music RPC version **2.0.0** and later will be accepted.
+> Only activities exported via a **Userscript Manager** from Web Presence version **2.0.0** and later will be accepted.
 
 ---
 
@@ -38,11 +38,11 @@ These rules apply to all submitted activities. PRs that violate them will be clo
 
 Before contributing, make sure you have:
 
-- [Discord Music RPC](https://github.com/KanashiiDev/discord-music-rpc) version 2.0.0 or later installed
+- [Web Presence](https://github.com/KanashiiDev/web-presence) version 2.0.0 or later installed
 
 If you haven't created an activity before, read the official guide first:
 
-**[[Userscript Guide]](https://github.com/KanashiiDev/discord-music-rpc/wiki/Adding-a-New-Music-Site#option-2---userscript-method)**
+**[[Userscript Guide]](https://github.com/KanashiiDev/web-presence/wiki/Adding-a-New-Site#option-2---userscript-method)**
 
 ---
 
@@ -50,7 +50,7 @@ If you haven't created an activity before, read the official guide first:
 
 ### 1. Create your activity
 
-Use the Userscript Manager inside Discord Music RPC to create and configure your activity.
+Use the Userscript Manager inside Web Presence to create and configure your activity.
 
 | Field         | Required | Notes                                                              |
 | ------------- | -------- | ------------------------------------------------------------------ |
@@ -92,7 +92,7 @@ Before submitting, verify that your activity works correctly on the target websi
 
 ### 3. Export the file
 
-1. Open Discord Music RPC → Userscript Manager
+1. Open Web Presence → Userscript Manager
 2. Find your activity in the scripts list
 3. Click **Export** next to the activity
 4. Save the downloaded `.js` file
