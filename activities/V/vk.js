@@ -1,10 +1,10 @@
 registerParser({
   id: "kanashiidev_vk.com_Lio",
-  domain: "vk.com",
+  domain: "vk.ru",
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",
   title: "VK",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Music streaming and discovery integrated into the VK social platform.",
   category: "platform",
   tags: ["community"],
