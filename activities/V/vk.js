@@ -4,7 +4,7 @@ registerParser({
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",
   title: "VK",
-  version: "1.0.1",
+  version: "1.0.2",
   description: "Music streaming and discovery integrated into the VK social platform.",
   category: "platform",
   tags: ["community"],
@@ -22,7 +22,7 @@ registerParser({
     const duration = ap[5] || 0;
     const timePassed = Math.floor(progress * (ap[5] || 0));
     const image = ap[14]?.split(",")[0] || "https://cdn.discordapp.com/app-assets/1366752683628957767/1472958246636617829.png?size=160";
-    const songUrl = `https://vk.com/audio${ap[26]}`;
+    const songUrl = `https://vk.ru/audio${ap[26]}`;
     const source = "VK";
     const isPlaying = Boolean(document.querySelector("button[data-testid='TopAudioPlayer_TogglePlayAction'][data-testactive='true']"));
   },
