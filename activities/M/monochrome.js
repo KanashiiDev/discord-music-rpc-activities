@@ -6,7 +6,7 @@ registerParser({
   title: "Monochrome",
   version: "1.0.2",
   description: "",
-  lastUpdated: "1786179237444",
+  lastUpdated: "1786229971950",
   mode: "listen",
   watchAutoDetect: "disable",
   homepage: "",
@@ -20,7 +20,7 @@ registerParser({
     let songUrl = "";
     let timePassed = getText('#current-time');
     let duration = getText('#total-duration');
-    let buttons = [{ link: "", text: "" }, { link: "", text: "", }];
+    let buttons = [{ link: "test", text: "test" }, { link: "", text: "", }];
     let isPlaying = querySelectorDeep('div.buttons > .play-pause-btn path[d*=M6]');
   },
 });
