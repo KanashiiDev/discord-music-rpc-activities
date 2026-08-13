@@ -3,7 +3,20 @@
 This guide explains how to create, test, and submit an activity for a music or video website.
 
 > [!IMPORTANT]
-> Only activities exported via a **Userscript Manager** from Web Presence version **2.0.0** and later will be accepted.
+> Only activities created via the **Userscript Manager** inside the Web Presence browser extension will be accepted. Manually written or hand-edited files are not accepted.
+
+---
+
+## Prerequisites
+
+Before contributing, make sure you have:
+
+- [Web Presence](https://github.com/KanashiiDev/web-presence) version 3.1.0 or later installed
+- A [GitHub account](https://github.com/signup) (free)
+
+If you haven't created an activity before, read the official guide first:
+
+**[[Userscript Guide]](https://github.com/KanashiiDev/web-presence/wiki/Adding-a-New-Website#option-2---userscript-method)**
 
 ---
 
@@ -22,42 +35,32 @@ These rules apply to all submitted activities. PRs that violate them will be clo
 - The website must be publicly accessible.
 - Activities for `.onion` domains or free/disposable domains (e.g. Freenom, `.tk`, `.rf`, `.gd`) are not accepted.
 
-**Maintenance**
-
-- If an activity no longer works and is not updated by its author or the community within a reasonable time, it will be removed from the repository.
-- If you want to take over maintenance of an abandoned activity, fix it and open a PR - the original author will be credited in the file.
-
 **Code & language**
 
 - All activity metadata (name, description, comments) must be written in English.
-- The exported `.js` file must come directly from the Userscript Manager. Hand-edited or manually written files are not accepted.
+- The activity file must be submitted directly through the Userscript Manager's built-in contribute feature. Hand-edited or manually written files are not accepted.
+
+**Maintenance**
+
+- If an activity no longer works and is not updated by its author or the community within a reasonable time, it will be removed from the repository.
+- If you want to take over maintenance of an abandoned activity, fix it and submit a PR - the original author will be credited in the file.
 
 ---
 
-## Prerequisites
+## How to Submit an Activity
 
-Before contributing, make sure you have:
+### Step 1 - Create your activity
 
-- [Web Presence](https://github.com/KanashiiDev/web-presence) version 2.0.0 or later installed
+Open Web Presence and navigate to **Userscript Manager**. Click **+ New Script** to create a new activity, or open an existing one to edit it.
 
-If you haven't created an activity before, read the official guide first:
-
-**[[Userscript Guide]](https://github.com/KanashiiDev/web-presence/wiki/Adding-a-New-Site#option-2---userscript-method)**
-
----
-
-## Submitting a New Activity
-
-### 1. Create your activity
-
-Use the Userscript Manager inside Web Presence to create and configure your activity.
+Fill in all required fields:
 
 | Field         | Required | Notes                                                              |
 | ------------- | -------- | ------------------------------------------------------------------ |
 | Name          | ✓        | The name of the music/video site                                   |
 | Domain        | ✓        | The site's domain (e.g. `music.example.com`)                       |
-| Author        | ✓        | Your username                                                      |
-| Authors Links |          | Link to your profile (e.g. GitHub)                                 |
+| Author        | ✓        | Filled automatically from your GitHub account once you connect     |
+| Authors Links |          | Link to your profile (filled automatically from GitHub)            |
 | Category      | ✓        | `Radio`, `Platform`, `Aggregator`, `Video`, or `Other`             |
 | Tags          |          | Comma-separated keywords related to the site (e.g. `anime, japan`) |
 | Description   | ✓        | A short description of what the activity does                      |
@@ -76,11 +79,11 @@ Choose the mode that matches what the site is primarily used for.
 If you select Watching mode, you must also decide on **Auto Detect Video Status**:
 
 - **Enable** (recommended) - the extension automatically detects playback state, elapsed time, and duration. You don't need to handle these manually in your script.
-- **Disable** - use this only if auto detection does not work correctly on the target site.
+- **Disable** - use this if you can retrieve the video's playback data directly from the page, or if automatic detection doesn't work correctly on the target site.
 
 ---
 
-### 2. Test thoroughly
+### Step 2 - Test thoroughly
 
 Before submitting, verify that your activity works correctly on the target website:
 
@@ -90,43 +93,116 @@ Before submitting, verify that your activity works correctly on the target websi
 
 ---
 
-### 3. Export the file
+### Step 3 - Connect your GitHub account
 
-1. Open Web Presence → Userscript Manager
-2. Find your activity in the scripts list
-3. Click **Export** next to the activity
-4. Save the downloaded `.js` file
+You need to connect your GitHub account before you can submit. This is a one-time step.
 
-> Do not submit partial code, copied snippets, or manually modified exports. Only the full exported `.js` file from the Userscript Manager is accepted.
+In the Userscript Manager, click the **GitHub icon button** in the top-right corner of the header. A sign-in window will appear showing a short code and an **Open GitHub** button.
 
----
+Click **Open GitHub** - this takes you to `github.com` where you enter the code shown in the extension. Once you approve it on GitHub, the extension detects the approval automatically and the window closes. Your GitHub username will appear on the button to confirm you're connected.
 
-### 4. Place the file in the correct folder
+You don't need to create any tokens, copy-paste anything, or touch GitHub settings manually. The extension handles everything.
 
-All activities live inside the `activities/` directory, organised by the **first letter of the website name** (not the domain):
-
-```text
-Spotify        → activities/S/
-YouTube Music  → activities/Y/
-```
+> If the code expires before you finish (a countdown timer is shown), close the window and try again - a new code will be generated.
 
 ---
 
-### 5. Open a Pull Request
+### Step 4 - Submit your activity
 
-Once your file is in the right place, open a Pull Request against `main`. A maintainer will review it and may request changes.
+In your script list, find the activity you want to submit and click the **GitHub (contribute) button** next to it.
+
+The extension will:
+
+1. Check whether this activity already exists in the repository and compare versions.
+2. Show you a confirmation window with a summary of what will be submitted (name, version, domain, author, activity mode, and the file path where it will be placed).
+3. If this is an update to an existing activity, show a comparison table so you can see what has changed.
+
+Review the details, optionally edit the commit message, then click **Submit** (or **Submit Update** for existing activities).
+
+The extension then handles everything automatically in the background:
+
+- Creates a fork of the repository under your GitHub account (if one doesn't exist yet)
+- Syncs the fork with the latest upstream changes
+- Creates a branch named `contribute/<your-script-name>`
+- Pushes the activity file to the correct location
+- Opens a Pull Request against the main repository
+
+When the process is complete, a link to your Pull Request is shown. Click it to view the PR on GitHub.
+
+> A Pull Request is a proposal to add your changes to the repository. A maintainer will review it and may ask for changes before it is accepted.
+
+---
+
+### Step 5 - Wait for review
+
+Once your Pull Request is open, a maintainer will review it. They may leave comments or request changes. If changes are requested, update your activity in the Userscript Manager, increment the version number, and submit again using the same contribute button - the extension will update the existing PR automatically.
 
 ---
 
 ## Updating an Existing Activity
 
-If you're fixing a bug or adding support for something new in an activity that already exists:
+If you're fixing a bug or adding support for something new:
 
 1. Make your changes in the Userscript Manager
 2. **Increment the version number** - PRs that modify an activity without bumping the version will not be accepted
-3. Export the updated `.js` file
-4. Replace the existing file in the repository
-5. Open a Pull Request describing what changed
+3. Click the **GitHub (contribute) button** next to the activity
+4. Review the comparison table showing what changed
+5. Submit - the extension will update the existing branch and PR
+
+---
+
+## File Naming and Placement
+
+The extension places your activity file automatically. You don't need to choose a path manually. For reference, files are placed at:
+
+```
+activities/<LETTER>/<scriptId>.js
+```
+
+Where `<LETTER>` is the first character of your activity's name (uppercased, A–Z or 0–9). For example:
+
+```
+Spotify        → activities/S/
+YouTube Music  → activities/Y/
+```
+
+The filename is derived from your activity's name: spaces become underscores, special characters are removed, and the first character is lowercased (or the entire name is lowercased if it was written in all caps).
+
+---
+
+## Version Rules
+
+The extension enforces the following version checks before submitting:
+
+- If the same version already exists in the repository, submission is blocked. You must increment the version first.
+- If the version in an open PR is the same as or newer than what you're trying to submit, submission is blocked.
+- If the activity is already up to date in the repository (same version, same content), no PR will be opened.
+
+---
+
+## Author Handling
+
+When you submit, the extension automatically adds your GitHub username to the Authors field:
+
+- If this is a new activity with no existing authors, your username replaces any placeholder.
+- If the activity already exists in the repository with other authors, your username is appended to the end.
+- Duplicate author entries (case-insensitive) are removed automatically.
+
+Your GitHub profile link (`https://github.com/<your-username>`) is added to the Authors Links field following the same rules.
+
+---
+
+## Common Errors
+
+**"Version is the same or outdated"** - The repository already has this version of the activity. Open the editor, increment the version number (e.g. from `1.0.0` to `1.0.1`), save, and try submitting again.
+
+**"Already up to date"** - The activity in the repository is identical to what you're submitting. No action is needed.
+
+**"Authentication failed"** - Your GitHub connection has expired or been revoked. Click **Re-authenticate** in the error window to sign in again.
+
+**"Fork is taking too long"** - GitHub is still initializing your fork. Click **Retry** after a few seconds.
+
+**"Rate limit exceeded"** - GitHub has temporarily limited requests. Wait a moment and click **Retry**.
 
 ---
 
@@ -138,8 +214,6 @@ Before submitting, confirm:
 - [ ] All required fields are filled in
 - [ ] Activity Mode is set correctly (`Listening` or `Watching`)
 - [ ] The version was incremented if you modified an existing activity
-- [ ] The `.js` file was exported from the Userscript Manager - not written or edited by hand
-- [ ] The file is placed in the correct `activities/<letter>/` folder
 
 ---
 
