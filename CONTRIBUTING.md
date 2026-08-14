@@ -9,10 +9,7 @@ This guide explains how to create, test, and submit an activity for a music or v
 
 ## Prerequisites
 
-Before contributing, make sure you have:
-
 - [Web Presence](https://github.com/KanashiiDev/web-presence) version 3.1.0 or later installed
-- A [GitHub account](https://github.com/signup) (free)
 
 If you haven't created an activity before, read the official guide first:
 
@@ -28,7 +25,7 @@ These rules apply to all submitted activities. PRs that violate them will be clo
 
 - The activity must be for a website that streams or plays music/audio or video.
 - Activities for illegal websites (e.g. piracy, drug marketplaces, CSAM) are not accepted.
-- Activities for websites whose primary purpose is adult/nudity content are not accepted. If a platform incidentally contains such content, the activity must never display it - only song/video title, artist, and cover art are shown.
+- Activities for websites whose primary purpose is adult/nudity content are not accepted. If a platform incidentally contains such content, the activity must never display it; only song/video title, artist, and cover art are shown.
 
 **Website requirements**
 
@@ -43,7 +40,7 @@ These rules apply to all submitted activities. PRs that violate them will be clo
 **Maintenance**
 
 - If an activity no longer works and is not updated by its author or the community within a reasonable time, it will be removed from the repository.
-- If you want to take over maintenance of an abandoned activity, fix it and submit a PR - the original author will be credited in the file.
+- If you want to take over maintenance of an abandoned activity, fix it and submit a PR. The original author will be credited in the file.
 
 ---
 
@@ -55,18 +52,16 @@ Open Web Presence and navigate to **Userscript Manager**. Click **+ New Script**
 
 Fill in all required fields:
 
-| Field         | Required | Notes                                                              |
-| ------------- | -------- | ------------------------------------------------------------------ |
-| Name          | ✓        | The name of the music/video site                                   |
-| Domain        | ✓        | The site's domain (e.g. `music.example.com`)                       |
-| Author        | ✓        | Filled automatically from your GitHub account once you connect     |
-| Authors Links |          | Link to your profile (filled automatically from GitHub)            |
-| Category      | ✓        | `Radio`, `Platform`, `Aggregator`, `Video`, or `Other`             |
-| Tags          |          | Comma-separated keywords related to the site (e.g. `anime, japan`) |
-| Description   | ✓        | A short description of what the activity does                      |
-| Version       | ✓        | Start at `1.0.0`; increment on every update                        |
-| Homepage      |          | The URL that opens when the activity icon is clicked               |
-| Activity Mode | ✓        | `Listening` or `Watching` - see below                              |
+| Field         | Required | Notes                                                  |
+| ------------- | -------- | ------------------------------------------------------ |
+| Name          | ✓        | The name of the music/video site                       |
+| Domain        | ✓        | The site's domain (e.g. `music.example.com`)           |
+| Category      | ✓        | `Radio`, `Platform`, `Aggregator`, `Video`, or `Other` |
+| Tags          |          | Comma-separated keywords (e.g. `anime, japan`)         |
+| Description   | ✓        | A short English description of what the activity does  |
+| Version       | ✓        | Start at `1.0.0`; increment on every update            |
+| Homepage      |          | URL that opens when the activity icon is clicked       |
+| Activity Mode | ✓        | `Listening` or `Watching` - see below                  |
 
 #### Activity Mode
 
@@ -99,11 +94,11 @@ You need to connect your GitHub account before you can submit. This is a one-tim
 
 In the Userscript Manager, click the **GitHub icon button** in the top-right corner of the header. A sign-in window will appear showing a short code and an **Open GitHub** button.
 
-Click **Open GitHub** - this takes you to `github.com` where you enter the code shown in the extension. Once you approve it on GitHub, the extension detects the approval automatically and the window closes. Your GitHub username will appear on the button to confirm you're connected.
+Click **Open GitHub to Authorize**. This takes you to `github.com` where you enter the code shown in the extension. Once you approve it, the extension detects the approval automatically and the window closes. Your GitHub username will appear on the button to confirm you're connected.
 
 You don't need to create any tokens, copy-paste anything, or touch GitHub settings manually. The extension handles everything.
 
-> If the code expires before you finish (a countdown timer is shown), close the window and try again - a new code will be generated.
+> If the code expires before you finish (a countdown timer is shown), close the window and try again. A new code will be generated.
 
 ---
 
@@ -119,60 +114,44 @@ The extension will:
 
 Review the details, optionally edit the commit message, then click **Submit** (or **Submit Update** for existing activities).
 
-The extension then handles everything automatically in the background:
+The extension then handles everything automatically:
 
 - Creates a fork of the repository under your GitHub account (if one doesn't exist yet)
 - Syncs the fork with the latest upstream changes
-- Creates a branch named `contribute/<your-script-name>`
+- Creates a branch named `contribute/<normalized-script-name>` (spaces become underscores, special characters removed)
 - Pushes the activity file to the correct location
 - Opens a Pull Request against the main repository
 
 When the process is complete, a link to your Pull Request is shown. Click it to view the PR on GitHub.
 
-> A Pull Request is a proposal to add your changes to the repository. A maintainer will review it and may ask for changes before it is accepted.
-
 ---
 
 ### Step 5 - Wait for review
 
-Once your Pull Request is open, a maintainer will review it. They may leave comments or request changes. If changes are requested, update your activity in the Userscript Manager, increment the version number, and submit again using the same contribute button - the extension will update the existing PR automatically.
+Once your Pull Request is open, a maintainer will review it. They may leave comments or request changes. If changes are requested, update your activity in the Userscript Manager, increment the version number, and submit again using the same contribute button. The extension will update the existing PR automatically.
 
 ---
 
-## Updating an Existing Activity
+## Where Your File Gets Placed
 
-If you're fixing a bug or adding support for something new:
-
-1. Make your changes in the Userscript Manager
-2. **Increment the version number** - PRs that modify an activity without bumping the version will not be accepted
-3. Click the **GitHub (contribute) button** next to the activity
-4. Review the comparison table showing what changed
-5. Submit - the extension will update the existing branch and PR
-
----
-
-## File Naming and Placement
-
-The extension places your activity file automatically. You don't need to choose a path manually. For reference, files are placed at:
+The extension places your activity file automatically. Files are placed at:
 
 ```
 activities/<LETTER>/<scriptId>.js
 ```
 
-Where `<LETTER>` is the first character of your activity's name (uppercased, A–Z or 0–9). For example:
+Where `<LETTER>` is the first character of your activity's name, uppercased (A-Z or 0-9). Names that start with a special character fall back to `#/`. For example:
 
 ```
 Spotify        → activities/S/
 YouTube Music  → activities/Y/
 ```
 
-The filename is derived from your activity's name: spaces become underscores, special characters are removed, and the first character is lowercased (or the entire name is lowercased if it was written in all caps).
+The filename is derived from your activity's name: spaces become underscores, special characters are removed. If the name is written in all caps, the entire filename is lowercased; otherwise only the first character is lowercased.
 
 ---
 
 ## Version Rules
-
-The extension enforces the following version checks before submitting:
 
 - If the same version already exists in the repository, submission is blocked. You must increment the version first.
 - If the version in an open PR is the same as or newer than what you're trying to submit, submission is blocked.
@@ -180,21 +159,9 @@ The extension enforces the following version checks before submitting:
 
 ---
 
-## Author Handling
-
-When you submit, the extension automatically adds your GitHub username to the Authors field:
-
-- If this is a new activity with no existing authors, your username replaces any placeholder.
-- If the activity already exists in the repository with other authors, your username is appended to the end.
-- Duplicate author entries (case-insensitive) are removed automatically.
-
-Your GitHub profile link (`https://github.com/<your-username>`) is added to the Authors Links field following the same rules.
-
----
-
 ## Common Errors
 
-**"Version is the same or outdated"** - The repository already has this version of the activity. Open the editor, increment the version number (e.g. from `1.0.0` to `1.0.1`), save, and try submitting again.
+**"Version is the same or outdated"** - The repository already has this version. Increment the version number (e.g. `1.0.0` to `1.0.1`) and try again.
 
 **"Already up to date"** - The activity in the repository is identical to what you're submitting. No action is needed.
 
@@ -207,8 +174,6 @@ Your GitHub profile link (`https://github.com/<your-username>`) is added to the 
 ---
 
 ## Pull Request Checklist
-
-Before submitting, confirm:
 
 - [ ] The activity works correctly on the target website
 - [ ] All required fields are filled in
