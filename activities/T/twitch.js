@@ -4,14 +4,17 @@ registerParser({
   authors: "kanashiiDev",
   authorsLinks: "https://github.com/KanashiiDev",
   title: "Twitch",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Twitch is an interactive livestreaming service for content spanning gaming, entertainment, sports, music, and more.",
   category: "platform",
   tags: ["streaming"],
   mode: "watch",
   urlPatterns: [/\/.*/],
   fn: function () {
-    const title = getText("#live-channel-stream-information [data-a-target='stream-title']");
+    const title =
+      getText("#live-channel-stream-information [data-a-target='stream-title']") ||
+      getText("#live-channel-stream-information [data-test-selector='metadata-layout__split-top'] > div > div >  div:last-child") ||
+      document.title?.replace(" - Twitch", "");
     const artist = getText("#live-channel-stream-information h1.tw-title");
     const image = getImage("#live-channel-stream-information")?.replace(/-\d{1,2}x\d{1,2}/, "-300x300") || "https://www.twitch.tv/favicon.ico";
     const video = document.querySelector("video");
